@@ -3,6 +3,8 @@
 namespace MewesK\WebRedirectorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 
 /**
  * Redirect
@@ -49,11 +51,24 @@ class Redirect
      */
     private $isRegex;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -64,6 +79,7 @@ class Redirect
      * Set hostname
      *
      * @param string $hostname
+     *
      * @return Redirect
      */
     public function setHostname($hostname)
@@ -76,7 +92,7 @@ class Redirect
     /**
      * Get hostname
      *
-     * @return string 
+     * @return string
      */
     public function getHostname()
     {
@@ -87,6 +103,7 @@ class Redirect
      * Set path
      *
      * @param string $path
+     *
      * @return Redirect
      */
     public function setPath($path)
@@ -99,7 +116,7 @@ class Redirect
     /**
      * Get path
      *
-     * @return string 
+     * @return string
      */
     public function getPath()
     {
@@ -110,6 +127,7 @@ class Redirect
      * Set destination
      *
      * @param string $destination
+     *
      * @return Redirect
      */
     public function setDestination($destination)
@@ -122,7 +140,7 @@ class Redirect
     /**
      * Get destination
      *
-     * @return string 
+     * @return string
      */
     public function getDestination()
     {
@@ -133,6 +151,7 @@ class Redirect
      * Set isRegex
      *
      * @param boolean $isRegex
+     *
      * @return Redirect
      */
     public function setIsRegex($isRegex)
@@ -145,10 +164,74 @@ class Redirect
     /**
      * Get isRegex
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsRegex()
     {
         return $this->isRegex;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param boolean $updated
+     *
+     * @return Redirect
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return boolean
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set created
+     *
+     * @param boolean $created
+     *
+     * @return Redirect
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return boolean
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->created = new \DateTime();
+    }
+
+    /**
+     * @PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updated = new \DateTime();
     }
 }

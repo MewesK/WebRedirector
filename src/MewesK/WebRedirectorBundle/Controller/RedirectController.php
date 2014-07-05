@@ -31,10 +31,9 @@ class RedirectController extends Controller
 
         $entities = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
+        return array('entities' => $entities,);
     }
+
     /**
      * Creates a new Redirect entity.
      *
@@ -56,10 +55,7 @@ class RedirectController extends Controller
             return $this->redirect($this->generateUrl('admin_show', array('id' => $entity->getId())));
         }
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return array('entity' => $entity, 'form' => $form->createView(),);
     }
 
     /**
@@ -71,10 +67,7 @@ class RedirectController extends Controller
      */
     private function createCreateForm(Redirect $entity)
     {
-        $form = $this->createForm(new RedirectType(), $entity, array(
-            'action' => $this->generateUrl('admin_create'),
-            'method' => 'POST',
-        ));
+        $form = $this->createForm(new RedirectType(), $entity, array('action' => $this->generateUrl('admin_create'), 'method' => 'POST',));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -91,12 +84,9 @@ class RedirectController extends Controller
     public function newAction()
     {
         $entity = new Redirect();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return array('entity' => $entity, 'form' => $form->createView(),);
     }
 
     /**
@@ -118,10 +108,7 @@ class RedirectController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+        return array('entity' => $entity, 'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -144,31 +131,25 @@ class RedirectController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return array('entity' => $entity, 'edit_form' => $editForm->createView(), 'delete_form' => $deleteForm->createView(),);
     }
 
     /**
-    * Creates a form to edit a Redirect entity.
-    *
-    * @param Redirect $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Redirect entity.
+     *
+     * @param Redirect $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Redirect $entity)
     {
-        $form = $this->createForm(new RedirectType(), $entity, array(
-            'action' => $this->generateUrl('admin_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
+        $form = $this->createForm(new RedirectType(), $entity, array('action' => $this->generateUrl('admin_update', array('id' => $entity->getId())), 'method' => 'PUT',));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
+
     /**
      * Edits an existing Redirect entity.
      *
@@ -196,12 +177,9 @@ class RedirectController extends Controller
             return $this->redirect($this->generateUrl('admin_edit', array('id' => $id)));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return array('entity' => $entity, 'edit_form' => $editForm->createView(), 'delete_form' => $deleteForm->createView(),);
     }
+
     /**
      * Deletes a Redirect entity.
      *
@@ -237,11 +215,6 @@ class RedirectController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $this->createFormBuilder()->setAction($this->generateUrl('admin_delete', array('id' => $id)))->setMethod('DELETE')->add('submit', 'submit', array('label' => 'Delete'))->getForm();
     }
 }
