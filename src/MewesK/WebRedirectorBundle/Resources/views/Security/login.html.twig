@@ -1,0 +1,33 @@
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+{% block head_style %}
+    {% stylesheets filter='compass'
+    '@MewesKWebRedirectorBundle/Resources/public/sass/login.scss'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block title %}WebRedirector{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if app.session.flashbag.peekAll|length > 0 %}
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ session_flash() }}
+                </div>
+            </div>
+        {% endif %}
+
+        <form action="{{ path('login_check') }}" method="post" class="form-signin" role="form">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <input type="text" name="_username" class="form-control" placeholder="Username" required autofocus>
+            <input type="password" name="_password" class="form-control" placeholder="Password" required>
+            <input type="hidden" name="_target_path" value="/admin" />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
+{% endblock %}

@@ -3,3 +3,5 @@ mewes_k_web_redirector:
     type:     annotation
     prefix:   /
 
+mewes_k_web_redirector_yml:
+    resource: "@MewesKWebRedirectorBundle/Resources/config/routing.yml"

@@ -30,6 +30,7 @@ class RedirectController extends Controller
 
         return array('entities' => $entities);
     }
+
     /**
      * Lists all Redirect entities.
      *
