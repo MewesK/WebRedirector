@@ -2,40 +2,52 @@
 
 {% block headline %}Redirects{% endblock %}
 
-{% block content %}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Hostname</th>
-            <th>Path</th>
-            <th>Destination</th>
-            <th>Isregex</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.hostname }}</td>
-                <td>{{ entity.path }}</td>
-                <td>{{ entity.destination }}</td>
-                <td>{{ entity.isRegex }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('admin_show', { 'id': entity.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_edit', { 'id': entity.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block content_row %}
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Hostname</th>
+                    <th>Path</th>
+                    <th>Destination</th>
+                    <th>Isregex</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td><a href="{{ path('admin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                        <td>{{ entity.hostname }}</td>
+                        <td>{{ entity.path }}</td>
+                        <td>{{ entity.destination }}</td>
+                        <td class="col-md-1">{{ entity.isRegex }}</td>
+                        <td class="btn-group col-md-2">
+                            <a href="{{ path('admin_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs col-md-4">Show</a>
+                            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-4">Edit</a>
+                            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-4 confirm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('admin_new') }}" type="button" class="btn btn-primary">Create a new redirect</a>
+        <div class="btn-group-vertical col-md-2">
+            <a href="{{ path('admin_new') }}" class="btn btn-primary">Create redirect</a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Export
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('admin_export', { '_format': 'csv' }) }}">CSV</a></li>
+                    <li><a href="{{ path('admin_export', { '_format': 'xls' }) }}">XLS</a></li>
+                    <li><a href="{{ path('admin_export', { '_format': 'xlsx' }) }}">XLSX</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

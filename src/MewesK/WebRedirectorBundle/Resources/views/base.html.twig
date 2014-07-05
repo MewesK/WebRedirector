@@ -10,15 +10,48 @@
 
 {% block title %}WebRedirector{% endblock %}
 
+{% block navbar %}
+    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, inverse: true, id: 'navbar-example' } %}
+        {% block brand %}
+            <a class="navbar-brand" href="{{ path('admin') }}">WebRedirector</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block footer_tag_start %}
+    <hr>
+    <footer>
+{% endblock %}
+
 {% block footer %}
     <p>&copy; <a href="https://github.com/MewesK/WebRedirector" target="_blank">Mewes Kochheim</a> 2014</p>
-{% endblock footer %}
+{% endblock %}
+
+{% block body_end_before_js %}
+    <div id="confirm" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Do you really want to delete this entry?
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <a class="btn btn-danger delete">Delete</a>
+                        <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block foot_script_assetic %}
     {% javascripts
     'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js'
     '@MopaBootstrapBundle/Resources/public/bootstrap-sass/assets/javascripts/bootstrap/*.js'
     '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+    '@MewesKWebRedirectorBundle/Resources/public/js/*.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

@@ -2,43 +2,39 @@
 
 {% block headline %}Redirect{% endblock %}
 
-{% block content %}
-    <table class="table table-striped">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Hostname</th>
-            <td>{{ entity.hostname }}</td>
-        </tr>
-        <tr>
-            <th>Path</th>
-            <td>{{ entity.path }}</td>
-        </tr>
-        <tr>
-            <th>Destination</th>
-            <td>{{ entity.destination }}</td>
-        </tr>
-        <tr>
-            <th>Isregex</th>
-            <td>{{ entity.isRegex }}</td>
-        </tr>
-        </tbody>
-    </table>
+{% block content_row %}
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Hostname</th>
+                    <td>{{ entity.hostname }}</td>
+                </tr>
+                <tr>
+                    <th>Path</th>
+                    <td>{{ entity.path }}</td>
+                </tr>
+                <tr>
+                    <th>Destination</th>
+                    <td>{{ entity.destination }}</td>
+                </tr>
+                <tr>
+                    <th>Isregex</th>
+                    <td>{{ entity.isRegex }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('admin') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+        <div class="col-md-2 btn-group-vertical">
+            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">Delete</a>
+            <a href="{{ path('admin') }}" class="btn btn-default">Back</a>
+        </div>
+    </div>
 {% endblock %}

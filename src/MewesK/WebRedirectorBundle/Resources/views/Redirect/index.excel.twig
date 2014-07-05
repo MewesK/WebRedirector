@@ -1,0 +1,20 @@
+{% xlsdocument %}
+    {% xlssheet 'Redirects' %}
+        {% xlsrow %}
+            {% xlscell %}#{% endxlscell %}
+            {% xlscell %}Hostname{% endxlscell %}
+            {% xlscell %}Path{% endxlscell %}
+            {% xlscell %}Destination{% endxlscell %}
+            {% xlscell %}Isregex{% endxlscell %}
+        {% endxlsrow %}
+        {% for entity in entities %}
+            {% xlsrow %}
+                {% xlscell %}{{ entity.id }}{% endxlscell %}
+                {% xlscell %}{{ entity.hostname }}{% endxlscell %}
+                {% xlscell %}{{ entity.path }}{% endxlscell %}
+                {% xlscell %}{{ entity.destination }}{% endxlscell %}
+                {% xlscell %}{{ entity.isRegex }}{% endxlscell %}
+            {% endxlsrow %}
+        {% endfor %}
+    {% endxlssheet %}
+{% endxlsdocument %}

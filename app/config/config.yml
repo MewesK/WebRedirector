@@ -35,6 +35,10 @@ assetic:
     use_controller: false
     bundles:        [ MopaBootstrapBundle, MewesKWebRedirectorBundle ]
     filters:
+        uglifycss:
+            bin: C:\Users\MewesK\AppData\Roaming\npm\uglifycss
+        uglifyjs2:
+            bin: C:\Users\MewesK\AppData\Roaming\npm\uglifyjs
         compass:
             bin: C:\Ruby193\bin\compass
 

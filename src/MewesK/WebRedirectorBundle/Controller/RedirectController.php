@@ -17,7 +17,6 @@ use MewesK\WebRedirectorBundle\Form\RedirectType;
  */
 class RedirectController extends Controller
 {
-
     /**
      * Lists all Redirect entities.
      *
@@ -27,64 +26,46 @@ class RedirectController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAll();
 
-        $entities = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->findAll();
-
-        return array('entities' => $entities,);
+        return array('entities' => $entities);
     }
-
     /**
-     * Creates a new Redirect entity.
+     * Lists all Redirect entities.
      *
-     * @Route("/", name="admin_create")
-     * @Method("POST")
-     * @Template("MewesKWebRedirectorBundle:Redirect:new.html.twig")
+     * @Route("/redirects.{_format}", name="admin_export", requirements={"_format"="csv|xls|xlsx"})
+     * @Method("GET")
      */
-    public function createAction(Request $request)
+    public function exportAction()
     {
-        $entity = new Redirect();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAll();
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_show', array('id' => $entity->getId())));
-        }
-
-        return array('entity' => $entity, 'form' => $form->createView(),);
-    }
-
-    /**
-     * Creates a form to create a Redirect entity.
-     *
-     * @param Redirect $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Redirect $entity)
-    {
-        $form = $this->createForm(new RedirectType(), $entity, array('action' => $this->generateUrl('admin_create'), 'method' => 'POST',));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
+        return $this->render('MewesKWebRedirectorBundle:Redirect:index.excel.twig', array('entities' => $entities));
     }
 
     /**
      * Displays a form to create a new Redirect entity.
      *
      * @Route("/new", name="admin_new")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
     public function newAction()
     {
         $entity = new Redirect();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createForm(new RedirectType(), $entity);
+
+        if ($this->get('request')->getMethod()) {
+            $form->handleRequest($this->get('request'));
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin'));
+            }
+        }
 
         return array('entity' => $entity, 'form' => $form->createView(),);
     }
@@ -98,123 +79,64 @@ class RedirectController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
+        $entity = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Redirect entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array('entity' => $entity, 'delete_form' => $deleteForm->createView(),);
+        return array('entity' => $entity);
     }
 
     /**
      * Displays a form to edit an existing Redirect entity.
      *
      * @Route("/{id}/edit", name="admin_edit")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Redirect entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $form = $this->createForm(new RedirectType(), $entity);
 
-        return array('entity' => $entity, 'edit_form' => $editForm->createView(), 'delete_form' => $deleteForm->createView(),);
-    }
+        if ($this->get('request')->getMethod()) {
+            $form->handleRequest($this->get('request'));
 
-    /**
-     * Creates a form to edit a Redirect entity.
-     *
-     * @param Redirect $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(Redirect $entity)
-    {
-        $form = $this->createForm(new RedirectType(), $entity, array('action' => $this->generateUrl('admin_update', array('id' => $entity->getId())), 'method' => 'PUT',));
+            if ($form->isValid()) {
+                $em->flush();
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-
-    /**
-     * Edits an existing Redirect entity.
-     *
-     * @Route("/{id}", name="admin_update")
-     * @Method("PUT")
-     * @Template("MewesKWebRedirectorBundle:Redirect:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Redirect entity.');
+                return $this->redirect($this->generateUrl('admin'));
+            }
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_edit', array('id' => $id)));
-        }
-
-        return array('entity' => $entity, 'edit_form' => $editForm->createView(), 'delete_form' => $deleteForm->createView(),);
+        return array('entity' => $entity, 'form' => $form->createView());
     }
 
     /**
      * Deletes a Redirect entity.
      *
-     * @Route("/{id}", name="admin_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="admin_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Redirect entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Redirect entity.');
         }
 
-        return $this->redirect($this->generateUrl('admin'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a Redirect entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()->setAction($this->generateUrl('admin_delete', array('id' => $id)))->setMethod('DELETE')->add('submit', 'submit', array('label' => 'Delete'))->getForm();
+        return $this->redirect($this->generateUrl('admin'));
     }
 }
