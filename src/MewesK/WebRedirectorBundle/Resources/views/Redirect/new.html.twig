@@ -1,15 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends 'MewesKWebRedirectorBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Redirect creation</h1>
+{% block headline %}New redirect{% endblock %}
 
+{% block content %}
     {{ form(form) }}
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('admin') }}">
-                Back to the list
-            </a>
-        </li>
-    </ul>
+    <a href="{{ path('admin') }}" type="button" class="btn btn-default">Back to the list</a>
 {% endblock %}

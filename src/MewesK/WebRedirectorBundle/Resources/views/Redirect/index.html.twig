@@ -1,20 +1,9 @@
-{% extends 'MopaBootstrapBundle::base.html.twig' %}
+{% extends 'MewesKWebRedirectorBundle::base.html.twig' %}
 
-{% block head_style %}
-{% stylesheets filter='compass'
-    '@MewesKWebRedirectorBundle/Resources/public/sass/style.scss'
-%}
-<link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-{% endstylesheets %}
-{% endblock %}
+{% block headline %}Redirects{% endblock %}
 
-{% block title %}WebRedirector{% endblock %}
-
-{% block body %}
-<div class="container">
-    <h1>Redirect list</h1>
-
-    <table class="records_list">
+{% block content %}
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Id</th>
@@ -48,23 +37,5 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-</div>
+    <a href="{{ path('admin_new') }}" type="button" class="btn btn-primary">Create a new redirect</a>
 {% endblock %}
-
-{% block foot_script_assetic %}
-    {% javascripts
-    '@MopaBootstrapBundle/Resources/public/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap-sass/assets/javascripts/bootstrap/*.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock foot_script_assetic %}

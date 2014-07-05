@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\PreUpdate;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MewesK\WebRedirectorBundle\Entity\RedirectRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Redirect
 {
@@ -49,21 +50,21 @@ class Redirect
      *
      * @ORM\Column(name="isRegex", type="boolean")
      */
-    private $isRegex;
+    private $isRegex = false;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated", type="datetime")
+     * @ORM\Column(name="updatedAt", type="datetime")
      */
-    private $updated;
+    private $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $created;
+    private $createdAt;
 
     /**
      * Get id
@@ -172,70 +173,71 @@ class Redirect
     }
 
     /**
-     * Set updated
+     * Set updatedAt
      *
      * @param boolean $updated
      *
      * @return Redirect
      */
-    public function setUpdated($updated)
+    public function setUpdatedAt($updated)
     {
-        $this->updated = $updated;
+        $this->updatedAt = $updated;
 
         return $this;
     }
 
     /**
-     * Get updated
+     * Get updatedAt
      *
      * @return boolean
      */
-    public function getUpdated()
+    public function getUpdatedAt()
     {
-        return $this->updated;
+        return $this->updatedAt;
     }
 
     /**
-     * Set created
+     * Set createdAt
      *
      * @param boolean $created
      *
      * @return Redirect
      */
-    public function setCreated($created)
+    public function setCreatedAt($created)
     {
-        $this->created = $created;
+        $this->createdAt = $created;
 
         return $this;
     }
 
     /**
-     * Get created
+     * Get createdAt
      *
      * @return boolean
      */
-    public function getCreated()
+    public function getCreatedAt()
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
     /**
-     * Set created automatically before each persist
+     * Set createdAt automatically before each persist
      *
      * @PrePersist
      */
     public function onPrePersist()
     {
-        $this->created = new \DateTime();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
-     * Set updated automatically before each update
+     * Set updatedAt automatically before each update
      *
      * @PreUpdate
      */
     public function onPreUpdate()
     {
-        $this->updated = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 }

@@ -1,0 +1,25 @@
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% block head_style %}
+    {% stylesheets filter='compass'
+    '@MewesKWebRedirectorBundle/Resources/public/sass/style.scss'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block title %}WebRedirector{% endblock %}
+
+{% block footer %}
+    <p>&copy; <a href="https://github.com/MewesK/WebRedirector" target="_blank">Mewes Kochheim</a> 2014</p>
+{% endblock footer %}
+
+{% block foot_script_assetic %}
+    {% javascripts
+    'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap-sass/assets/javascripts/bootstrap/*.js'
+    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
