@@ -1,0 +1,5 @@
+mewes_k_web_redirector:
+    resource: "@MewesKWebRedirectorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
