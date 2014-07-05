@@ -220,6 +220,8 @@ class Redirect
     }
 
     /**
+     * Set created automatically before each persist
+     *
      * @PrePersist
      */
     public function onPrePersist()
@@ -228,6 +230,8 @@ class Redirect
     }
 
     /**
+     * Set updated automatically before each update
+     *
      * @PreUpdate
      */
     public function onPreUpdate()
