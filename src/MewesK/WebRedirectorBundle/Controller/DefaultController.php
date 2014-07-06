@@ -21,13 +21,7 @@ class DefaultController extends Controller
         $query = $request->getQueryString();
 
         // get possible redirects
-        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->createQueryBuilder('r')
-            ->where('r.useRegex = true')
-            ->orWhere('r.hostname = :hostname AND (r.path = :path OR r.path IS NULL)')
-            ->setParameter('hostname', $hostname)
-            ->setParameter('path', $path)
-            ->getQuery()
-            ->getResult();
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->getPossibleRedirects($hostname, $path);
 
         if (self::$DEBUG) {
             var_dump(count($entities));

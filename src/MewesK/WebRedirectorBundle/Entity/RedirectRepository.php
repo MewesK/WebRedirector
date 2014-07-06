@@ -19,4 +19,23 @@ class RedirectRepository extends EntityRepository
             ->getSingleResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
         return is_null($lastPosition) ? 0 : intval($lastPosition) + 1;
     }
+
+    /**
+     * Get possible redirects (matching or containing regular expressions)
+     *
+     * @param string $hostname
+     * @param string|null $path
+     *
+     * @return array
+     */
+    public function getPossibleRedirects($hostname, $path = null) {
+        return $this->createQueryBuilder('r')
+            ->where('r.useRegex = true')
+            ->orWhere('r.hostname = :hostname AND (r.path = :path OR r.path IS NULL)')
+            ->orderBy('r.position')
+            ->setParameter('hostname', $hostname)
+            ->setParameter('path', $path)
+            ->getQuery()
+            ->getResult();
+    }
 }
