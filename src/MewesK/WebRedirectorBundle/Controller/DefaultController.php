@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DefaultController extends Controller
 {
-    private static $DEBUG = true;
+    const DEBUG = true;
 
     public function indexAction($url)
     {
@@ -23,7 +23,7 @@ class DefaultController extends Controller
         // get possible redirects
         $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->getPossibleRedirects($hostname, $path);
 
-        if (self::$DEBUG) {
+        if (self::DEBUG) {
             var_dump(count($entities));
             echo "\n===\n\n";
         }
@@ -34,20 +34,20 @@ class DefaultController extends Controller
             $entityPath = $entity->getPath();
             $entityDestination = $entity->getDestination();
 
-            if (self::$DEBUG) {
+            if (self::DEBUG) {
                 echo "Possible Redirect:\n";
                 var_dump($entityHostname, $entityPath, $entityDestination);
             }
 
             // handle regex
             if ($entity->getUseRegex()) {
-                if (self::$DEBUG) {
+                if (self::DEBUG) {
                     echo "\nIs using regex\n";
                 }
 
                 // remove if regex won't match
-                if (!(preg_match($entityHostname, $hostname, $matchesHostname) && preg_match($entityPath, $path, $matchesPath))) {
-                    if (self::$DEBUG) {
+                if (!(preg_match($entityHostname, $hostname, $matchesHostname) & preg_match($entityPath, $path, $matchesPath))) {
+                    if (self::DEBUG) {
                         echo "Doesn't match, removing\n";
                         echo "\n===\n\n";
                     }
@@ -58,7 +58,7 @@ class DefaultController extends Controller
 
                 // perform regex replace if necessary
                 else {
-                    if (self::$DEBUG) {
+                    if (self::DEBUG) {
                         echo "Does match, matches:\n";
                         var_dump($matchesHostname, $matchesPath);
                     }
@@ -75,7 +75,7 @@ class DefaultController extends Controller
 
             // handle placeholders
             if ($entity->getUsePlaceholders()) {
-                if (self::$DEBUG) {
+                if (self::DEBUG) {
                     echo "\nIs using placeholders\n";
                 }
 
@@ -83,14 +83,14 @@ class DefaultController extends Controller
                 $entityDestination = preg_replace('/(?<!\$)\$Q/i', $query, $entityDestination);
             }
 
-            if (self::$DEBUG) {
+            if (self::DEBUG) {
                 echo "\nResult:\n";
                 var_dump($entityHostname, $entityPath, $entityDestination);
                 echo "\n===\n\n";
             }
         }
 
-        if (self::$DEBUG) {
+        if (self::DEBUG) {
             var_dump(count($entities));
             die();
         }
