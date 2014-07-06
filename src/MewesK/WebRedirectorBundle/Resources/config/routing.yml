@@ -8,4 +8,4 @@ catch_all:
     path: /{url}
     defaults: { _controller: MewesKWebRedirectorBundle:Default:index }
     requirements:
-        url: ".+"
+        url: ".*"
