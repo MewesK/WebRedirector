@@ -61,7 +61,10 @@ class RedirectController extends Controller
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $em->getRepository('MewesKWebRedirectorBundle:Redirect')->setPositionAndPersist($entity);
+
+                $entity->setPosition($em->getRepository('MewesKWebRedirectorBundle:Redirect')->getNextAvailablePosition());
+
+                $em->persist($entity);
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('admin'));
