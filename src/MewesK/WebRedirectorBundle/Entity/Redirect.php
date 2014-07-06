@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Symfony\Component\Validator\Constraints as Assert;
+use MewesK\WebRedirectorBundle\Validator\Constraints as CustomAssert;
+use Symfony\Component\Validator\GroupSequenceProviderInterface;
 
 /**
  * Redirect
@@ -13,8 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MewesK\WebRedirectorBundle\Entity\RedirectRepository")
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @Assert\GroupSequenceProvider
  */
-class Redirect
+class Redirect implements GroupSequenceProviderInterface
 {
     /**
      * @var integer
@@ -38,6 +42,12 @@ class Redirect
      *      minMessage = "The hostname must be at least {{ limit }} characters length",
      *      maxMessage = "The hostname cannot be longer than {{ limit }} characters length"
      * )
+     * @CustomAssert\IsValidPCRE(
+     *     groups={"Regex"}
+     * )
+     * @CustomAssert\IsValidHostname(
+     *     groups={"NotRegex"}
+     * )
      */
     private $hostname;
 
@@ -49,6 +59,12 @@ class Redirect
      * @Assert\Length(
      *      max = "1023",
      *      maxMessage = "The path cannot be longer than {{ limit }} characters length"
+     * )
+     * @CustomAssert\IsValidPCRE(
+     *     groups={"Regex"}
+     * )
+     * @CustomAssert\IsValidPath(
+     *     groups={"NotRegex"}
      * )
      */
     private $path;
@@ -65,6 +81,9 @@ class Redirect
      *      max = "1023",
      *      minMessage = "The destination must be at least {{ limit }} characters length",
      *      maxMessage = "The destination cannot be longer than {{ limit }} characters length"
+     * )
+     * @Assert\Url(
+     *     groups={"NotRegexNotPlaceholders"}
      * )
      */
     private $destination;
@@ -306,5 +325,23 @@ class Redirect
     public function onPreUpdate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Returns which validation groups should be used for a certain state
+     * of the object.
+     *
+     * @return array An array of validation groups
+     */
+    public function getGroupSequence()
+    {
+        $groups = array(
+            'Redirect',
+            $this->getUseRegex() ? 'Regex' : 'NotRegex'
+        );
+        if (!$this->getUsePlaceholders() && !$this->getUseRegex()) {
+            $groups[] = 'NotRegexNotPlaceholders';
+        }
+        return $groups;
     }
 }

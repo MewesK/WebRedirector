@@ -14,13 +14,25 @@ class DefaultController extends Controller
 
         $scheme = $request->getScheme();
         $hostname = $request->getHttpHost();
-        $path = $request->getRequestUri();
+        $path = $request->getPathInfo();
 
-        var_dump(array(
-            $scheme,
-            $hostname,
-            $path
-        )); die();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->createQueryBuilder('r')
+            ->where('r.useRegex = true')
+            ->orWhere('r.hostname = :hostname AND r.path = :path')
+            ->setParameter('hostname', $hostname)
+            ->setParameter('path', $path)
+            ->getQuery();
+        $entities = $query->getResult();
+
+        foreach($entities as $entity) {
+            if ($entity->getUseRegex() === true) {
+                $entityHostname = $entity->getHostname();
+                $entityPath = $entity->getPath();
+            }
+        }
+
+        var_dump($entities); die();
 
         return array();
     }
