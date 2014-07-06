@@ -28,6 +28,12 @@ class Redirect implements GroupSequenceProviderInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer", unique=true)
+     */
+    private $position;
 
     /**
      * @var string
@@ -136,6 +142,30 @@ class Redirect implements GroupSequenceProviderInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set position
+     *
+     * @param string $position
+     *
+     * @return Redirect
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return string
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 
     /**
