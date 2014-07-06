@@ -3,12 +3,11 @@
 namespace MewesK\WebRedirectorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DefaultController extends Controller
 {
-    const DEBUG = true;
+    const DEBUG = false;
 
     public function indexAction($url)
     {
@@ -46,7 +45,7 @@ class DefaultController extends Controller
                 }
 
                 // remove if regex won't match
-                if (!(preg_match($entityHostname, $hostname, $matchesHostname) & preg_match($entityPath, $path, $matchesPath))) {
+                if (!(preg_match($entityHostname, $hostname, $matchesHostname) & (!is_null($entityPath) && preg_match($entityPath, $path, $matchesPath)))) {
                     if (self::DEBUG) {
                         echo "Doesn't match, removing\n";
                         echo "\n===\n\n";
@@ -88,13 +87,21 @@ class DefaultController extends Controller
                 var_dump($entityHostname, $entityPath, $entityDestination);
                 echo "\n===\n\n";
             }
+
+            $entity->setDestination($entityDestination);
         }
+
+        $finalRedirect = reset($entities);
 
         if (self::DEBUG) {
             var_dump(count($entities));
+            var_dump($finalRedirect);
             die();
         }
 
-        return array();
+        return $finalRedirect === false ? $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
+            'error_code' => 404,
+            'error_message' => 'Unable to find a matching redirect.'
+        )) : new RedirectResponse($finalRedirect->getDestination());
     }
 }
