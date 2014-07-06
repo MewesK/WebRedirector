@@ -8,12 +8,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/hello/{name}")
-     * @Template()
-     */
-    public function indexAction($name)
+    public function indexAction($url)
     {
-        return array('name' => $name);
+        $request = $this->get('request');
+
+        $scheme = $request->getScheme();
+        $hostname = $request->getHttpHost();
+        $path = $request->getRequestUri();
+
+        var_dump(array(
+            $scheme,
+            $hostname,
+            $path
+        )); die();
+
+        return array();
     }
 }

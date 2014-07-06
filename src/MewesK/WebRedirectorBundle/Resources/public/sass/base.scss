@@ -3,3 +3,21 @@
 body {
   padding-top: 40px;
 }
+
+.glyphicon-none:before {
+  content: "\2122";
+  color: transparent !important;
+}
+
+footer {
+  opacity: 0.2;
+}
+
+footer:hover {
+  opacity: 1.0;
+}
+
+.modal-footer .btn-group {
+  padding-left: 0;
+  padding-right: 0;
+}

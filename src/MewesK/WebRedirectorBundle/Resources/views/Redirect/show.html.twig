@@ -24,17 +24,27 @@
                     <td>{{ entity.destination }}</td>
                 </tr>
                 <tr>
-                    <th>Isregex</th>
-                    <td>{{ entity.isRegex }}</td>
+                    <th>Use Regex</th>
+                    <td><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
+                </tr>
+                <tr>
+                    <th>Use Placeholders</th>
+                    <td><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="col-md-2 btn-group-vertical">
-            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-primary">Edit</a>
-            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">Delete</a>
-            <a href="{{ path('admin') }}" class="btn btn-default">Back</a>
+            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil pull-left"></span> Edit
+            </a>
+            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">
+                <span class="glyphicon glyphicon-trash pull-left"></span> Delete
+            </a>
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left pull-left"></span> Back
+            </a>
         </div>
     </div>
 {% endblock %}

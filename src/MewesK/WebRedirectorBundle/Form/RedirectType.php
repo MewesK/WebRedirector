@@ -14,7 +14,18 @@ class RedirectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('hostname')->add('path')->add('destination')->add('isRegex');
+        $builder
+            ->add('hostname', 'text')
+            ->add('path', 'text', array(
+                'required' => false
+            ))
+            ->add('destination', 'text')
+            ->add('useRegex', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('usePlaceholders', 'checkbox', array(
+                'required' => false
+            ));
     }
 
     /**

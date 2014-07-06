@@ -12,7 +12,8 @@
                     <th>Hostname</th>
                     <th>Path</th>
                     <th>Destination</th>
-                    <th>Isregex</th>
+                    <th>Use Regex</th>
+                    <th>Use Placeholders</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -23,7 +24,8 @@
                         <td>{{ entity.hostname }}</td>
                         <td>{{ entity.path }}</td>
                         <td>{{ entity.destination }}</td>
-                        <td class="col-md-1">{{ entity.isRegex }}</td>
+                        <td class="col-md-1"><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
+                        <td class="col-md-1"><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
                         <td class="btn-group col-md-2">
                             <a href="{{ path('admin_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs col-md-4">Show</a>
                             <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-4">Edit</a>
@@ -36,11 +38,12 @@
         </div>
 
         <div class="btn-group-vertical col-md-2">
-            <a href="{{ path('admin_new') }}" class="btn btn-primary">Create redirect</a>
+            <a href="{{ path('admin_new') }}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-file pull-left"></span> Create
+            </a>
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Export
-                    <span class="caret"></span>
+                    <span class="glyphicon glyphicon-download pull-left"></span> Export <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="{{ path('admin_export', { '_format': 'csv' }) }}">CSV</a></li>

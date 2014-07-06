@@ -11,9 +11,11 @@
 {% block title %}WebRedirector{% endblock %}
 
 {% block navbar %}
-    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, inverse: true, id: 'navbar-example' } %}
+    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, inverse: true, id: 'navbar' } %}
         {% block brand %}
-            <a class="navbar-brand" href="{{ path('admin') }}">WebRedirector</a>
+            <a class="navbar-brand" href="{{ path('admin') }}">
+                WebRedirector
+            </a>
         {% endblock %}
         {% block menu %}
         <ul class="nav navbar-nav navbar-right">
@@ -34,7 +36,9 @@
 {% endblock %}
 
 {% block footer %}
-    <p>&copy; <a href="https://github.com/MewesK/WebRedirector" target="_blank">Mewes Kochheim</a> 2014</p>
+    <div class="text-center">
+        &copy; <a href="https://github.com/MewesK/WebRedirector" target="_blank">Mewes Kochheim</a> 2014
+    </div>
 {% endblock %}
 
 {% block body_end_before_js %}
@@ -45,9 +49,13 @@
                     Do you really want to delete this entry?
                 </div>
                 <div class="modal-footer">
-                    <div class="btn-group">
-                        <a class="btn btn-danger delete">Delete</a>
-                        <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <div class="btn-group col-md-6 pull-right">
+                        <a class="btn btn-danger col-md-6 delete">
+                            <span class="glyphicon glyphicon-ok pull-left"></span> Delete
+                        </a>
+                        <a class="btn btn-default col-md-6" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-remove pull-left"></span> Cancel
+                        </a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,33 @@
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% block head_style %}
+    {% stylesheets filter='compass'
+    '@MewesKWebRedirectorBundle/Resources/public/sass/error.scss'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block title %}WebRedirector: {{ error_code }}{% endblock %}
+
+{% block navbar %}
+    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, inverse: true, id: 'navbar' } %}
+        {% block brand %}
+            <a class="navbar-brand" href="{{ path('admin') }}">WebRedirector</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ error_code }} {{ error_message }}</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- foobar -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

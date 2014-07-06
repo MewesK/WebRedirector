@@ -83,7 +83,10 @@ class RedirectController extends Controller
         $entity = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Redirect entity.');
+            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
+                'error_code' => 404,
+                'error_message' => 'Unable to find Redirect entity.'
+            ));
         }
 
         return array('entity' => $entity);
@@ -102,7 +105,10 @@ class RedirectController extends Controller
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Redirect entity.');
+            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
+                'error_code' => 404,
+                'error_message' => 'Unable to find Redirect entity.'
+            ));
         }
 
         $form = $this->createForm(new RedirectType(), $entity);
@@ -132,7 +138,10 @@ class RedirectController extends Controller
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Redirect entity.');
+            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
+                'error_code' => 404,
+                'error_message' => 'Unable to find Redirect entity.'
+            ));
         }
 
         $em->remove($entity);

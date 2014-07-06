@@ -3,3 +3,9 @@ login_check:
 
 logout:
     path: /logout
+
+catch_all:
+    path: /{url}
+    defaults: { _controller: MewesKWebRedirectorBundle:Default:index }
+    requirements:
+        url: ".+"

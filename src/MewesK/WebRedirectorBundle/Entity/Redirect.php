@@ -5,6 +5,7 @@ namespace MewesK\WebRedirectorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Redirect
@@ -28,13 +29,27 @@ class Redirect
      * @var string
      *
      * @ORM\Column(name="hostname", type="string", length=1023)
+     *
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "1023",
+     *      minMessage = "The hostname must be at least {{ limit }} characters length",
+     *      maxMessage = "The hostname cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $hostname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="path", type="string", length=1023)
+     * @ORM\Column(name="path", type="string", length=1023, nullable=true)
+     *
+     * @Assert\Length(
+     *      max = "1023",
+     *      maxMessage = "The path cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $path;
 
@@ -42,15 +57,37 @@ class Redirect
      * @var string
      *
      * @ORM\Column(name="destination", type="string", length=1023)
+     *
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "1023",
+     *      minMessage = "The destination must be at least {{ limit }} characters length",
+     *      maxMessage = "The destination cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $destination;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isRegex", type="boolean")
+     * @ORM\Column(name="useRegex", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool", message="The value {{ value }} is not a valid {{ type }}.")
      */
-    private $isRegex = false;
+    private $useRegex;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="usePlaceholders", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool", message="The value {{ value }} is not a valid {{ type }}.")
+     */
+    private $usePlaceholders;
 
     /**
      * @var \DateTime
@@ -65,6 +102,12 @@ class Redirect
      * @ORM\Column(name="createdAt", type="datetime")
      */
     private $createdAt;
+
+    public function __construct() {
+        $this->path = '';
+        $this->useRegex = false;
+        $this->usePlaceholders = false;
+    }
 
     /**
      * Get id
@@ -149,39 +192,63 @@ class Redirect
     }
 
     /**
-     * Set isRegex
+     * Set useRegex
      *
-     * @param boolean $isRegex
+     * @param boolean $useRegex
      *
      * @return Redirect
      */
-    public function setIsRegex($isRegex)
+    public function setUseRegex($useRegex)
     {
-        $this->isRegex = $isRegex;
+        $this->useRegex = $useRegex;
 
         return $this;
     }
 
     /**
-     * Get isRegex
+     * Get useRegex
      *
      * @return boolean
      */
-    public function getIsRegex()
+    public function getUseRegex()
     {
-        return $this->isRegex;
+        return $this->useRegex;
+    }
+
+    /**
+     * Set usePlaceholders
+     *
+     * @param boolean $usePlaceholders
+     *
+     * @return Redirect
+     */
+    public function setUsePlaceholders($usePlaceholders)
+    {
+        $this->usePlaceholders = $usePlaceholders;
+
+        return $this;
+    }
+
+    /**
+     * Get usePlaceholders
+     *
+     * @return boolean
+     */
+    public function getUsePlaceholders()
+    {
+        return $this->usePlaceholders;
     }
 
     /**
      * Set updatedAt
      *
-     * @param boolean $updated
+     * @param boolean $updatedAt
      *
      * @return Redirect
      */
-    public function setUpdatedAt($updated)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updatedAt = $updated;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -199,13 +266,13 @@ class Redirect
     /**
      * Set createdAt
      *
-     * @param boolean $created
+     * @param boolean $createdAt
      *
      * @return Redirect
      */
-    public function setCreatedAt($created)
+    public function setCreatedAt($createdAt)
     {
-        $this->createdAt = $created;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

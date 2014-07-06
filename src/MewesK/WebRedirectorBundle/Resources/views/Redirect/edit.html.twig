@@ -12,9 +12,15 @@
         </div>
 
         <div class="col-md-2 btn-group-vertical">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">Delete</a>
-            <a href="{{ path('admin') }}" class="btn btn-default">Back</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-disk pull-left"></span> Save
+            </button>
+            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">
+                <span class="glyphicon glyphicon-trash pull-left"></span> Delete
+            </a>
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left pull-left"></span> Back
+            </a>
         </div>
 
         {{ form_end(form) }}

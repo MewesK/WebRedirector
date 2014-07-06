@@ -12,8 +12,16 @@
 
 {% block title %}WebRedirector{% endblock %}
 
-{% block body %}
-    <div class="container">
+{% block navbar %}
+    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, inverse: true, id: 'navbar' } %}
+        {% block brand %}
+            <a class="navbar-brand" href="{{ path('admin') }}">WebRedirector</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block container %}
+    {% block flashes %}
         {% if app.session.flashbag.peekAll|length > 0 %}
             <div class="row">
                 <div class="col-sm-12">
@@ -21,13 +29,13 @@
                 </div>
             </div>
         {% endif %}
+    {% endblock %}
 
-        <form action="{{ path('login_check') }}" method="post" class="form-signin" role="form">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="text" name="_username" class="form-control" placeholder="Username" required autofocus>
-            <input type="password" name="_password" class="form-control" placeholder="Password" required>
-            <input type="hidden" name="_target_path" value="/admin" />
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
-    </div>
+    <form action="{{ path('login_check') }}" method="post" class="form-signin" role="form">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" name="_username" class="form-control" placeholder="Username" required autofocus>
+        <input type="password" name="_password" class="form-control" placeholder="Password" required>
+        <input type="hidden" name="_target_path" value="/admin" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
 {% endblock %}
