@@ -173,10 +173,26 @@ class RedirectController extends Controller
 
         $position = intval($request->request->get('position'));
 
+        if ($position < 0) {
+            return new JsonResponse(array(
+                'error_code' => 400,
+                'error_message' => '"position" parameter must be >= 0.'
+            ));
+        }
+
         $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('MewesKWebRedirectorBundle:Redirect');
+        $nextPosition = $repository->getNextAvailablePosition();
+
+        if ($position >= $nextPosition) {
+            return new JsonResponse(array(
+                'error_code' => 400,
+                'error_message' => '"position" parameter must be <= '.($nextPosition - 1).'.'
+            ));
+        }
 
         /** @var $entity Redirect */
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
+        $entity = $repository->find($id);
 
         if (!$entity) {
             return new JsonResponse(array(
@@ -185,8 +201,8 @@ class RedirectController extends Controller
             ));
         }
 
-        $entity->setPosition($position);
-        $em->persist($entity);
-        $em->flush();
+        $repository->setNewPosition($entity, $position);
+
+        return new JsonResponse(true);
     }
 }

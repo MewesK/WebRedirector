@@ -38,4 +38,18 @@ class RedirectRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function setNewPosition(Redirect $redirect, $position = 0) {
+        $this->createQueryBuilder('r')
+            ->update('r.position = r.position + 1')
+            ->where('r.position >= :position')
+            ->setParameter('position', $position)
+            ->getQuery()
+            ->execute();
+
+        $redirect->setPosition($position);
+        $em = $this->getEntityManager();
+        $em->persist($redirect);
+        $em->flush();
+    }
 }
