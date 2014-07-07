@@ -9,6 +9,10 @@ body {
   color: transparent !important;
 }
 
+input[type="radio"], input[type="checkbox"] {
+  margin-top: -10px;
+}
+
 footer {
   opacity: 0.2;
 }

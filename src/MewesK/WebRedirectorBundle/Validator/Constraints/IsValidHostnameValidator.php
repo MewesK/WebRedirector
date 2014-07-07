@@ -12,6 +12,7 @@ class IsValidHostnameValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
+        /** @var $constraint IsValidHostname */
         if (!empty($value) && !(preg_match(self::REGEX_IP, $value, $matches) || preg_match(self::REGEX_HOSTNAME, $value, $matches))) {
             $this->context->addViolation(
                 $constraint->message,

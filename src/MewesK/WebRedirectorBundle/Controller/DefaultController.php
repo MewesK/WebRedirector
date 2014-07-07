@@ -4,6 +4,7 @@ namespace MewesK\WebRedirectorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use MewesK\WebRedirectorBundle\Entity\Redirect;
 
 class DefaultController extends Controller
 {
@@ -29,6 +30,7 @@ class DefaultController extends Controller
 
         // magic
         foreach($entities as $entityKey => $entity) {
+            /** @var $entity Redirect */
             $entityHostname = $entity->getHostname();
             $entityPath = $entity->getPath();
             $entityDestination = $entity->getDestination();
@@ -45,7 +47,7 @@ class DefaultController extends Controller
                 }
 
                 // remove if regex won't match
-                if (!(preg_match($entityHostname, $hostname, $matchesHostname) & (!is_null($entityPath) && preg_match($entityPath, $path, $matchesPath)))) {
+                if (!(preg_match($entityHostname, $hostname, $matchesHostname) & (!is_null($entityPath) & preg_match($entityPath, $path, $matchesPath)))) {
                     if (self::DEBUG) {
                         echo "Doesn't match, removing\n";
                         echo "\n===\n\n";

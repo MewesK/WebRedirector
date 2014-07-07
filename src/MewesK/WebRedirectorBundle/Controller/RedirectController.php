@@ -2,6 +2,7 @@
 
 namespace MewesK\WebRedirectorBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -151,5 +152,41 @@ class RedirectController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('admin'));
+    }
+
+    /**
+     * Displays a form to edit an existing Redirect entity.
+     *
+     * @Route("/{id}/position", name="admin_position")
+     * @Method("POST")
+     */
+    public function positionAction($id)
+    {
+        $request = $this->get('request');
+
+        if (!$request->request->has('position')) {
+            return new JsonResponse(array(
+                'error_code' => 400,
+                'error_message' => '"position" parameter is not defined.'
+            ));
+        }
+
+        $position = intval($request->request->get('position'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var $entity Redirect */
+        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
+
+        if (!$entity) {
+            return new JsonResponse(array(
+                'error_code' => 404,
+                'error_message' => 'Unable to find Redirect entity.'
+            ));
+        }
+
+        $entity->setPosition($position);
+        $em->persist($entity);
+        $em->flush();
     }
 }

@@ -11,6 +11,7 @@ class IsValidPCREValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
+        /** @var $constraint IsValidPCRE */
         if (!empty($value) && !preg_match(self::REGEX_PCRE, $value, $matches)) {
             $this->context->addViolation(
                 $constraint->message,

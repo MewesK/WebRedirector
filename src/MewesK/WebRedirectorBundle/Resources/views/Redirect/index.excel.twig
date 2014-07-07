@@ -2,6 +2,7 @@
     {% xlssheet 'Redirects' %}
         {% xlsrow %}
             {% xlscell %}#{% endxlscell %}
+            {% xlscell %}Position{% endxlscell %}
             {% xlscell %}Hostname{% endxlscell %}
             {% xlscell %}Path{% endxlscell %}
             {% xlscell %}Destination{% endxlscell %}
@@ -11,6 +12,7 @@
         {% for entity in entities %}
             {% xlsrow %}
                 {% xlscell %}{{ entity.id }}{% endxlscell %}
+                {% xlscell %}{{ entity.position }}{% endxlscell %}
                 {% xlscell %}{{ entity.hostname }}{% endxlscell %}
                 {% xlscell %}{{ entity.path }}{% endxlscell %}
                 {% xlscell %}{{ entity.destination }}{% endxlscell %}

@@ -5,3 +5,7 @@ $('.confirm').on('click', function (e) {
         location.href = href;
     });
 });
+
+$('.sortable').sortable({
+    placeholder: "ui-state-highlight"
+}).disableSelection();

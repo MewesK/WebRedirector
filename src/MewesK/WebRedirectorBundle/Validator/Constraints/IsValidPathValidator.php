@@ -11,6 +11,7 @@ class IsValidPathValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
+        /** @var $constraint IsValidPath */
         if (!empty($value) && !preg_match(self::REGEX_PATH, $value, $matches)) {
             $this->context->addViolation(
                 $constraint->message,
