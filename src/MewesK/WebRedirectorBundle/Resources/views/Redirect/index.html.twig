@@ -18,7 +18,7 @@
                 </thead>
                 <tbody class="sortable">
                 {% for entity in entities %}
-                    <tr>
+                    <tr data-id="{{ entity.id }}">
                         <td>{{ entity.hostname }}</td>
                         <td>{{ entity.path }}</td>
                         <td>{{ entity.destination }}</td>
@@ -51,4 +51,12 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block foot_script_assetic %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var positionUrl = '{{ path('admin_position', { 'id': '%ID%' }) }}';
+    </script>
 {% endblock %}

@@ -31,7 +31,7 @@ class Redirect implements GroupSequenceProviderInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="integer", unique=true)
+     * @ORM\Column(name="position", type="integer")
      */
     private $position;
 

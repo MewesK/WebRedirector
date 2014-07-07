@@ -39,17 +39,47 @@ class RedirectRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param Redirect $redirect
+     * @param int $position
+     */
     public function setNewPosition(Redirect $redirect, $position = 0) {
-        $this->createQueryBuilder('r')
-            ->update('r.position = r.position + 1')
-            ->where('r.position >= :position')
-            ->setParameter('position', $position)
-            ->getQuery()
-            ->execute();
+        $firstPosition = $position <= $redirect->getPosition() ? $position : $redirect->getPosition();
+        $lastPosition = $position >= $redirect->getPosition() ? $position : $redirect->getPosition();
 
-        $redirect->setPosition($position);
+        /** @var $entries Redirect[] */
+        $entries = $this->createQueryBuilder('r')
+            ->where('r.position >= :firstPosition')
+            ->andWhere('r.position <= :lastPosition')
+            ->andWhere('r.position != :currentPosition')
+            ->orderBy('r.position')
+            ->setParameter('firstPosition', $firstPosition)
+            ->setParameter('lastPosition', $lastPosition)
+            ->setParameter('currentPosition', $redirect->getPosition())
+            ->getQuery()
+            ->getResult();
+
+        if (count($entries) == 0) {
+            return;
+        }
+
+        array_splice($entries, $position - $entries[0]->getPosition(), 0, array($redirect));
+
         $em = $this->getEntityManager();
-        $em->persist($redirect);
+
+        for ($i = 0; $i < count($entries); $i++) {
+            $entry = $entries[$i];
+            $entry->setPosition($firstPosition + $i);
+            $em->persist($entry);
+        }
+
         $em->flush();
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllOrderedByPosition() {
+        return $this->findBy(array(), array('position' => 'ASC'));
     }
 }

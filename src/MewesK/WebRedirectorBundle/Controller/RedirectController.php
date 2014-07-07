@@ -2,6 +2,7 @@
 
 namespace MewesK\WebRedirectorBundle\Controller;
 
+use MewesK\WebRedirectorBundle\Entity\RedirectRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,7 +28,7 @@ class RedirectController extends Controller
      */
     public function indexAction()
     {
-        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAll();
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAllOrderedByPosition();
 
         return array('entities' => $entities);
     }
@@ -40,7 +41,7 @@ class RedirectController extends Controller
      */
     public function exportAction()
     {
-        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAll();
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAllOrderedByPosition();
 
         return $this->render('MewesKWebRedirectorBundle:Redirect:index.excel.twig', array('entities' => $entities));
     }
@@ -181,6 +182,8 @@ class RedirectController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
+
+        /** @var $repository RedirectRepository */
         $repository = $em->getRepository('MewesKWebRedirectorBundle:Redirect');
         $nextPosition = $repository->getNextAvailablePosition();
 
