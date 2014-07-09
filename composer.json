@@ -1,11 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "mewesk/web-redirector",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
-    "autoload": {
-        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
-    },
+    "description": "A HTTP request redirector featuring an easy to use UI. Build to handle multiple hostnames.",
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.5.*",
@@ -23,7 +20,9 @@
         "mewesk/twig-excel-bundle": "1.0.*@dev"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "4.1.*",
+        "phpmd/phpmd" : "1.4.*"
     },
     "scripts": {
         "post-root-package-install": [
@@ -47,6 +46,12 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
             "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrapSass"
         ]
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src/",
+            "SymfonyStandard": "app/"
+        }
     },
     "config": {
         "bin-dir": "bin"
