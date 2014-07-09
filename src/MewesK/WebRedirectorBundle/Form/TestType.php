@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RedirectType extends AbstractType
+class TestType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,19 +15,12 @@ class RedirectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('hostname', 'text')
-            ->add('path', 'text', array(
-                'required' => false
+            ->add('url', 'text', array(
+                'required' => true
             ))
-            ->add('destination', 'text')
-            ->add('useRegex', 'checkbox', array(
-                'required' => false
-            ))
-            ->add('usePlaceholders', 'checkbox', array(
-                'required' => false
-            ))
-            ->add('enabled', 'checkbox', array(
-                'required' => false
+            ->add('redirect',  'entity', array(
+                'class' => 'MewesKWebRedirectorBundle:Redirect',
+                'required' => true
             ));
     }
 
@@ -36,7 +29,7 @@ class RedirectType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'MewesK\WebRedirectorBundle\Entity\Redirect'));
+        $resolver->setDefaults(array('data_class' => 'MewesK\WebRedirectorBundle\Entity\Test'));
     }
 
     /**
@@ -44,6 +37,6 @@ class RedirectType extends AbstractType
      */
     public function getName()
     {
-        return 'mewesk_webredirectorbundle_redirect';
+        return 'mewesk_webredirectorbundle_test';
     }
 }
