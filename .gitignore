@@ -8,5 +8,6 @@
 /build/
 /vendor/
 /bin/
-/composer.phar
 /.idea/
+/composer.phar
+/phpmd.bat

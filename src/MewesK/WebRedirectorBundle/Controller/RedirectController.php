@@ -55,12 +55,10 @@ class RedirectController extends Controller
      * @Method({"GET", "POST"})
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Redirect();
         $form = $this->createForm(new RedirectType(), $entity);
-
-        $request = $this->get('request');
 
         if ($request->getMethod()) {
             $form->handleRequest($request);
@@ -108,7 +106,7 @@ class RedirectController extends Controller
      * @Method({"GET", "POST"})
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
@@ -121,8 +119,6 @@ class RedirectController extends Controller
         }
 
         $form = $this->createForm(new RedirectType(), $entity);
-
-        $request = $this->get('request');
 
         if ($request->getMethod()) {
             $form->handleRequest($request);
@@ -143,7 +139,7 @@ class RedirectController extends Controller
      * @Route("/{id}/delete", name="admin_delete")
      * @Method("GET")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
@@ -167,10 +163,8 @@ class RedirectController extends Controller
      * @Route("/{id}/position", name="admin_position")
      * @Method("POST")
      */
-    public function positionAction($id)
+    public function positionAction(Request $request, $id)
     {
-        $request = $this->get('request');
-
         if (!$request->request->has('position')) {
             return new JsonResponse(array(
                 'error_code' => 400,
@@ -222,7 +216,7 @@ class RedirectController extends Controller
      * @Method({"GET","POST"})
      * @Template()
      */
-    public function testAction($id)
+    public function testAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
@@ -237,8 +231,6 @@ class RedirectController extends Controller
         $test = new Test();
         $test->setRedirect($entity);
         $form = $this->createForm(new TestType(), $test);
-
-        $request = $this->get('request');
 
         if ($request->getMethod()) {
             $form->handleRequest($request);

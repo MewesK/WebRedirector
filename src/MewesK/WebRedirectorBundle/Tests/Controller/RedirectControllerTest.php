@@ -3,7 +3,6 @@
 namespace MewesK\WebRedirectorBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Client;
 
 class RedirectControllerTest extends WebTestCase
 {

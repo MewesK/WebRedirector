@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ff2baa96569f72170ca098a983d8344b",
+    "hash": "82cb68b97fdb42f7255d490767835bed",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1854,33 +1854,45 @@
         },
         {
             "name": "phpmd/phpmd",
-            "version": "1.4.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmd/phpmd.git",
-                "reference": "7d03a50e937811970751697ad1aea33a1089d66f"
+                "reference": "68ced5452910d3555a38720bd87f5f2356c5a003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmd/phpmd/zipball/7d03a50e937811970751697ad1aea33a1089d66f",
-                "reference": "7d03a50e937811970751697ad1aea33a1089d66f",
+                "url": "https://api.github.com/repos/phpmd/phpmd/zipball/68ced5452910d3555a38720bd87f5f2356c5a003",
+                "reference": "68ced5452910d3555a38720bd87f5f2356c5a003",
                 "shasum": ""
             },
             "require": {
-                "pdepend/pdepend": "*",
-                "php": ">=5.3.0"
+                "pdepend/pdepend": "2.0.*",
+                "php": ">=5.3.0",
+                "symfony/config": "@stable",
+                "symfony/dependency-injection": "@stable",
+                "symfony/filesystem": "@stable"
             },
             "bin": [
                 "src/bin/phpmd"
             ],
             "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPMD\\": "src/main/php",
+                    "PDepend\\": "vendor/pdepend/pdepend/src/main/php/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "../../pdepend/pdepend/src/main/php",
                 "src/main/php"
             ],
+            "license": [
+                "BSD-3-Clause"
+            ],
             "description": "Official version of PHPMD handled with Composer.",
-            "time": "2012-12-14 12:25:09"
+            "time": "2014-05-21 12:45:23"
         },
         {
             "name": "phpunit/php-code-coverage",
