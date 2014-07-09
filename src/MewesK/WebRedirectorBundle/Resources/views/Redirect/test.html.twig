@@ -1,0 +1,25 @@
+{% extends 'MewesKWebRedirectorBundle::base.html.twig' %}
+
+{% block headline %}Test redirect{% endblock %}
+
+{% block content_row %}
+    <div class="row">
+        {{ form_start(form) }}
+
+        <div class="col-md-10">
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+
+        <div class="col-md-2 btn-group-vertical">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-play pull-left"></span> Run
+            </button>
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left pull-left"></span> Back
+            </a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

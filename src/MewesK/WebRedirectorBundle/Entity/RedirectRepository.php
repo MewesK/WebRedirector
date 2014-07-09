@@ -30,8 +30,8 @@ class RedirectRepository extends EntityRepository
      */
     public function getPossibleRedirects($hostname, $path = null) {
         return $this->createQueryBuilder('r')
-            ->where('r.useRegex = true')
-            ->orWhere('r.hostname = :hostname AND (r.path = :path OR r.path IS NULL)')
+            ->where('r.enabled = true')
+            ->andWhere('(r.useRegex = true OR (r.hostname = :hostname AND (r.path = :path OR r.path IS NULL)))')
             ->orderBy('r.position')
             ->setParameter('hostname', $hostname)
             ->setParameter('path', $path)

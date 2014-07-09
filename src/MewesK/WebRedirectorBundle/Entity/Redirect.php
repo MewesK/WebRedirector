@@ -115,6 +115,16 @@ class Redirect implements GroupSequenceProviderInterface
     private $usePlaceholders;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool", message="The value {{ value }} is not a valid {{ type }}.")
+     */
+    private $enabled;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime")
@@ -289,6 +299,30 @@ class Redirect implements GroupSequenceProviderInterface
     }
 
     /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Redirect
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
      * Set updatedAt
      *
      * @param boolean $updatedAt
@@ -373,5 +407,12 @@ class Redirect implements GroupSequenceProviderInterface
             $groups[] = 'NotRegexNotPlaceholders';
         }
         return $groups;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return $this->getHostname() . ($this->getPath() ? ' + ' . $this->getPath() : '') .  ' -> ' . $this->getDestination();
     }
 }

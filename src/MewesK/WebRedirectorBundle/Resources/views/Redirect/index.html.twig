@@ -24,10 +24,11 @@
                         <td>{{ entity.destination }}</td>
                         <td class="col-md-1"><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
                         <td class="col-md-1"><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
-                        <td class="btn-group col-md-2">
-                            <a href="{{ path('admin_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs col-md-4">Show</a>
-                            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-4">Edit</a>
-                            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-4 confirm">Delete</a>
+                        <td class="btn-group col-md-3">
+                            <a href="{{ path('admin_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs col-md-3">Show</a>
+                            <a href="{{ path('admin_test', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-3">Test</a>
+                            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-3">Edit</a>
+                            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-3 confirm">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}

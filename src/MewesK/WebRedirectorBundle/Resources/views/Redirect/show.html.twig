@@ -40,7 +40,10 @@
         </div>
 
         <div class="col-md-2 btn-group-vertical">
-            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-primary">
+            <a href="{{ path('admin_test', { 'id': entity.id }) }}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-signal pull-left"></span> Test
+            </a>
+            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-default">
                 <span class="glyphicon glyphicon-pencil pull-left"></span> Edit
             </a>
             <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">

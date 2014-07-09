@@ -1,0 +1,23 @@
+{% extends 'MewesKWebRedirectorBundle::base.html.twig' %}
+
+{% block headline %}Test redirect{% endblock %}
+
+{% block content_row %}
+    <div class="row">
+        <div class="col-md-10">
+            {{ entity.destination }}
+        </div>
+
+        <div class="col-md-2 btn-group-vertical">
+            <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil pull-left"></span> Edit
+            </a>
+            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">
+                <span class="glyphicon glyphicon-trash pull-left"></span> Delete
+            </a>
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left pull-left"></span> Back
+            </a>
+        </div>
+    </div>
+{% endblock %}
