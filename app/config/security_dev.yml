@@ -1,0 +1,9 @@
+imports:
+    - { resource: security.yml }
+
+security:
+    providers:
+        in_memory:
+            memory:
+                users:
+                    admin: { password: kitten, roles: 'ROLE_ADMIN' }
