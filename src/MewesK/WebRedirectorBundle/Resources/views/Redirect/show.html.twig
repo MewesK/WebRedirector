@@ -17,22 +17,22 @@
                 </tr>
                 <tr>
                     <th>Hostname</th>
-                    <td>{{ entity.hostname }}</td>
+                    <td>{{ entity.hostname|format_regex }}</td>
                 </tr>
                 <tr>
                     <th>Path</th>
-                    <td>{{ entity.path }}</td>
+                    <td>{{ entity.path|format_regex }}</td>
                 </tr>
                 <tr>
                     <th>Destination</th>
                     <td>{{ entity.destination }}</td>
                 </tr>
                 <tr>
-                    <th>Use Regex</th>
+                    <th>Uses Regex</th>
                     <td><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
                 </tr>
                 <tr>
-                    <th>Use Placeholders</th>
+                    <th>Uses Placeholders</th>
                     <td><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
                 </tr>
                 </tbody>
