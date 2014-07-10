@@ -1,0 +1,5 @@
+services:
+    mewesk.twig.web_redirector_extension:
+        class: MewesK\WebRedirectorBundle\Twig\WebRedirectorExtension
+        tags:
+            - { name: twig.extension }
