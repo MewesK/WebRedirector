@@ -22,8 +22,8 @@
                         <td>{{ entity.hostname|format_regex }}</td>
                         <td>{{ entity.path|format_regex }}</td>
                         <td>{{ entity.destination }}</td>
-                        <td class="col-md-1"><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
-                        <td class="col-md-1"><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
+                        <td><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
+                        <td><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
                         <td class="btn-group col-md-3">
                             <a href="{{ path('admin_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs col-md-3">Show</a>
                             <a href="{{ path('admin_test', { 'id': entity.id }) }}" class="btn btn-default btn-xs col-md-3">Test</a>
