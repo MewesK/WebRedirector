@@ -18,7 +18,7 @@ class TestType extends AbstractType
             ->add('url', 'text', array(
                 'required' => true
             ))
-            ->add('redirect',  'entity', array(
+            ->add('redirect',  'mewesk_webredirectorbundle_entity_hidden', array(
                 'class' => 'MewesKWebRedirectorBundle:Redirect',
                 'required' => true
             ));

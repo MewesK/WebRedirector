@@ -58,7 +58,7 @@ class RedirectController extends Controller
     public function newAction(Request $request)
     {
         $entity = new Redirect();
-        $form = $this->createForm(new RedirectType(), $entity);
+        $form = $this->createForm('redirect', $entity);
 
         if ($request->getMethod()) {
             $form->handleRequest($request);
@@ -118,7 +118,7 @@ class RedirectController extends Controller
             ));
         }
 
-        $form = $this->createForm(new RedirectType(), $entity);
+        $form = $this->createForm('redirect', $entity);
 
         if ($request->getMethod()) {
             $form->handleRequest($request);
@@ -133,13 +133,18 @@ class RedirectController extends Controller
         return array('entity' => $entity, 'form' => $form->createView());
     }
 
+    //
+    // Modals
+    //
+
     /**
      * Deletes a Redirect entity.
      *
      * @Route("/{id}/delete", name="admin_delete")
-     * @Method("GET")
+     * @Method({"GET","POST"})
+     * @Template()
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
@@ -151,11 +156,60 @@ class RedirectController extends Controller
             ));
         }
 
-        $em->remove($entity);
-        $em->flush();
+        $form = $this->createFormBuilder($entity)->getForm();
 
-        return $this->redirect($this->generateUrl('admin'));
+        if ($request->getMethod()) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em->remove($entity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin'));
+            }
+        }
+
+        return array('entity' => $entity, 'form' => $form->createView());
     }
+
+    /**
+     * Finds and displays a Redirect entity.
+     *
+     * @Route("/{id}/test", name="admin_test")
+     * @Method({"GET","POST"})
+     * @Template()
+     */
+    public function testAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
+
+        if (!$entity) {
+            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
+                'error_code' => 404,
+                'error_message' => 'Unable to find Redirect entity.'
+            ));
+        }
+
+        $test = new Test();
+        $test->setRedirect($entity);
+        $form = $this->createForm('test', $test);
+        $result = null;
+
+        if ($request->getMethod()) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $result = null; // TODO: perform test
+            }
+        }
+
+        return array('entity' => $entity, 'form' => $form->createView(), 'testResult' => $result);
+    }
+
+    //
+    // REST
+    //
 
     /**
      * Displays a form to edit an existing Redirect entity.
@@ -207,43 +261,5 @@ class RedirectController extends Controller
         $repository->setNewPosition($entity, $position);
 
         return new JsonResponse(true);
-    }
-
-    /**
-     * Finds and displays a Redirect entity.
-     *
-     * @Route("/{id}/test", name="admin_test")
-     * @Method({"GET","POST"})
-     * @Template()
-     */
-    public function testAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-        if (!$entity) {
-            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
-                'error_code' => 404,
-                'error_message' => 'Unable to find Redirect entity.'
-            ));
-        }
-
-        $test = new Test();
-        $test->setRedirect($entity);
-        $form = $this->createForm(new TestType(), $test);
-
-        if ($request->getMethod()) {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                // TODO: perform test
-
-                return $this->render('MewesKWebRedirectorBundle:Redirect:testSuccess.html.twig', array(
-                    'entity' => $entity
-                ));
-            }
-        }
-
-        return array('entity' => $entity, 'form' => $form->createView(),);
     }
 }
