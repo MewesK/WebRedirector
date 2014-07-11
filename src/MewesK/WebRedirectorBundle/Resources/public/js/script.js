@@ -1,11 +1,19 @@
 $(function() {
     "use strict";
 
-    $('.confirm').on('click', function (e) {
+    $('.delete').on('click', function (e) {
         e.preventDefault();
         var href = e.currentTarget.href;
-        $('#confirm').modal({ backdrop: 'static' }).one('click', '.delete', function () {
-            location.href = href;
+        $.get(href, function(data) {
+            $('body').append($(data).modal({ backdrop: 'static' }));
+        });
+    });
+
+    $('.test').on('click', function (e) {
+        e.preventDefault();
+        var href = e.currentTarget.href;
+        $.get(href, function(data) {
+            $('body').append($(data).modal({ backdrop: 'static' }));
         });
     });
 
