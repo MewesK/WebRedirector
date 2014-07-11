@@ -1,20 +1,22 @@
-<div id="test" class="modal fade" role="dialog" aria-hidden="true">
+<div id="confirm" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             {{ form_start(form) }}
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Test</h4>
+                <h4 class="modal-title">Delete</h4>
             </div>
             <div class="modal-body">
                 {{ form_errors(form) }}
                 {{ form_widget(form) }}
+
+                Do you really want to delete this entry?
             </div>
             <div class="modal-footer">
                 <div class="btn-group col-md-6 pull-right">
-                    <button type="submit" class="btn btn-primary col-md-6">
-                        <span class="glyphicon glyphicon-signal pull-left"></span> Test
+                    <button type="submit" class="btn btn-danger col-md-6">
+                        <span class="glyphicon glyphicon-ok pull-left"></span> Delete
                     </button>
                     <a class="btn btn-default col-md-6" data-dismiss="modal">
                         <span class="glyphicon glyphicon-remove pull-left"></span> Cancel

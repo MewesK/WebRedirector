@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <th>Destination</th>
-                    <td>{{ entity.destination }}</td>
+                    <td>{{ entity.destination|format_destination }}</td>
                 </tr>
                 <tr>
                     <th>Uses Regex</th>
@@ -40,13 +40,13 @@
         </div>
 
         <div class="col-md-2 btn-group-vertical">
-            <a href="{{ path('admin_test', { 'id': entity.id }) }}" class="btn btn-primary">
+            <a href="{{ path('admin_test', { 'id': entity.id }) }}" class="btn btn-primary test">
                 <span class="glyphicon glyphicon-signal pull-left"></span> Test
             </a>
             <a href="{{ path('admin_edit', { 'id': entity.id }) }}" class="btn btn-default">
                 <span class="glyphicon glyphicon-pencil pull-left"></span> Edit
             </a>
-            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">
+            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default delete">
                 <span class="glyphicon glyphicon-trash pull-left"></span> Delete
             </a>
             <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">

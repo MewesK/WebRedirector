@@ -15,7 +15,7 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-floppy-disk pull-left"></span> Save
             </button>
-            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default confirm">
+            <a href="{{ path('admin_delete', { 'id': entity.id }) }}" class="btn btn-default delete">
                 <span class="glyphicon glyphicon-trash pull-left"></span> Delete
             </a>
             <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">

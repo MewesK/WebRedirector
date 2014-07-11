@@ -41,28 +41,6 @@
     </div>
 {% endblock %}
 
-{% block body_end_before_js %}
-    <div id="confirm" class="modal fade" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    Do you really want to delete this entry?
-                </div>
-                <div class="modal-footer">
-                    <div class="btn-group col-md-6 pull-right">
-                        <a class="btn btn-danger col-md-6 delete">
-                            <span class="glyphicon glyphicon-ok pull-left"></span> Delete
-                        </a>
-                        <a class="btn btn-default col-md-6" data-dismiss="modal">
-                            <span class="glyphicon glyphicon-remove pull-left"></span> Cancel
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
 {% block foot_script_assetic %}
     {% javascripts
     'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
