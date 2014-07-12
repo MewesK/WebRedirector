@@ -7,13 +7,67 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Test</h4>
             </div>
+
             <div class="modal-body">
                 {{ form_widget(form) }}
                 {% if result %}
-                    <h2>Result:</h2>
-                    <p>{{ result }}</p>
+                    <hr />
+                    <div style="text-align: center">
+                        <strong>{{ result.destination }}</strong>
+                    </div>
+                    <br />
+                    {% if entity.useRegex %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Hostname groups</h3>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                {% for key, value in result.hostnameGroups %}
+                                    <tr>
+                                        <td class="col-md-2">{{ key }}</td>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Path groups</h3>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                {% for key, value in result.pathGroups %}
+                                    <tr>
+                                        <td class="col-md-2">{{ key }}</td>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                    {% if entity.usePlaceholders %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Placeholders</h3>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                {% for key, value in result.placeholders %}
+                                    <tr>
+                                        <td class="col-md-2">{{ key }}</td>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
+
             <div class="modal-footer">
                 <div class="btn-group col-md-6 pull-right">
                     <button type="submit" class="btn btn-primary col-md-6">

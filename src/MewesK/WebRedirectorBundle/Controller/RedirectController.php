@@ -37,8 +37,11 @@ class RedirectController extends Controller
         )) : new RedirectResponse($finalRedirect->getDestination());
     }
 
-    public static function performRedirectTranslation(Request $request, Redirect $redirect) {
+    public static function performRedirectTranslation(Request $request, Redirect $redirect, $explain = false) {
         $entityDestination = $redirect->getDestination();
+        $hostnameGroups = array();
+        $pathGroups = array();
+        $placeholders = array();
 
         // handle regex
         if ($redirect->getUseRegex()) {
@@ -52,10 +55,18 @@ class RedirectController extends Controller
             else {
                  foreach($matchesHostname as $matchKey => $matchHostname) {
                     $entityDestination = preg_replace('/(?<!\$)\$H'.$matchKey.'/i', $matchHostname, $entityDestination);
+
+                     if ($explain) {
+                         $hostnameGroups['$H'.$matchKey] = $matchHostname;
+                     }
                 }
 
                 foreach($matchesPath as $matchKey => $matchPath) {
                     $entityDestination = preg_replace('/(?<!\$)\$P'.$matchKey.'/i', $matchPath, $entityDestination);
+
+                    if ($explain) {
+                        $pathGroups['$P'.$matchKey] = $matchPath;
+                    }
                 }
             }
         }
@@ -64,8 +75,18 @@ class RedirectController extends Controller
         if ($redirect->getUsePlaceholders()) {
             $entityDestination = preg_replace('/(?<!\$)\$S/i', $request->getScheme(), $entityDestination);
             $entityDestination = preg_replace('/(?<!\$)\$Q/i', $request->getQueryString(), $entityDestination);
+
+            if ($explain) {
+                $placeholders['$Q'] = $request->getScheme();
+                $placeholders['$S'] = $request->getQueryString();
+            }
         }
 
-        return $entityDestination;
+        return !$explain ? $entityDestination : array(
+            'destination' => $entityDestination,
+            'hostnameGroups' => $hostnameGroups,
+            'pathGroups' => $pathGroups,
+            'placeholders' => $placeholders
+        );
     }
 }

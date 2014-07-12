@@ -26,7 +26,7 @@ class TestController extends Controller
      *
      * @Route("/{id}/test", name="admin_test")
      * @Method({"GET","POST"})
-     * @Template("MewesKWebRedirectorBundle:Redirect:test.html.twig")
+     * @Template("MewesKWebRedirectorBundle:Admin:test.html.twig")
      */
     public function testAction(Request $request, $id)
     {
@@ -48,7 +48,7 @@ class TestController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $result = RedirectController::performRedirectTranslation(Request::create($test->getUrl()), $test);
+                $result = RedirectController::performRedirectTranslation(Request::create($test->getUrl()), $test, true);
             }
         }
 
@@ -63,7 +63,7 @@ class TestController extends Controller
      *
      * @Route("/test", name="admin_test_unsaved")
      * @Method("POST")
-     * @Template("MewesKWebRedirectorBundle:Redirect:test.html.twig")
+     * @Template("MewesKWebRedirectorBundle:Admin:test.html.twig")
      */
     public function testUnsavedAction(Request $request)
     {
@@ -74,7 +74,7 @@ class TestController extends Controller
         $form->handleRequest($request);
 
         if ($test->getUrl() && $form->isValid()) {
-            $result = RedirectController::performRedirectTranslation(Request::create($test->getUrl()), $test);
+            $result = RedirectController::performRedirectTranslation(Request::create($test->getUrl()), $test, true);
         }
 
         return array(
