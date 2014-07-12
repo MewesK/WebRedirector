@@ -9,6 +9,7 @@
             </div>
 
             <div class="modal-body">
+                {{ form_errors(form) }}
                 {{ form_widget(form) }}
                 {% if result %}
                     <hr />
@@ -17,7 +18,7 @@
                     </div>
                     <br />
                     {% if entity.useRegex %}
-                        <div class="panel panel-default">
+                        <div class="panel panel-default panel-sm">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Hostname groups</h3>
                             </div>
@@ -32,7 +33,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default panel-sm">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Path groups</h3>
                             </div>
@@ -49,7 +50,7 @@
                         </div>
                     {% endif %}
                     {% if entity.usePlaceholders %}
-                        <div class="panel panel-default">
+                        <div class="panel panel-default panel-sm">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Placeholders</h3>
                             </div>

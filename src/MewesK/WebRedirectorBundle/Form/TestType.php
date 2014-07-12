@@ -30,6 +30,10 @@ class TestType extends AbstractType
                 'required' => false
             ))
             ->add('url', 'text', array(
+                'attr' => array('placeholder' => 'Input URL'),
+                'horizontal_input_wrapper_class' => 'col-sm-12',
+                'horizontal_label_offset_class' => '',
+                'label_render' => false,
                 'required' => true
             ));
     }

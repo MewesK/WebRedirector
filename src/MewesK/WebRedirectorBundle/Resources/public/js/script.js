@@ -10,7 +10,9 @@ $(function() {
 
         // Call modal using the id
         $.get(href, function(data) {
-            $('body').append($(data).modal({ backdrop: 'static' }));
+            $('body').append($(data).modal({ backdrop: 'static' }).on('hidden.bs.modal', function(){
+                $(this).data('modal', null).remove();
+            }));
         });
     });
 
@@ -27,8 +29,8 @@ $(function() {
             function(modalData) {
                 // Append modal and add submit listener
                 $('body').append($(modalData).modal({ backdrop: 'static' }).on(
-                    'click',
-                    'button[type="submit"]',
+                    'submit',
+                    'form',
                     // On submit
                     function(e2) {
                         e2.preventDefault();
@@ -42,7 +44,12 @@ $(function() {
                             }
                         );
                     }
-                ));
+                ).on('shown.bs.modal', function(e2){
+                    // focus input field
+                    $(this).find('#mewesk_webredirectorbundle_test_url').focus();
+                }).on('hidden.bs.modal', function(){
+                    $(this).remove();
+                }));
             }
         );
     });
@@ -54,6 +61,7 @@ $(function() {
         // Get modal href
         var href = e1.currentTarget.href;
 
+        // Transform redirect form data to test form data
         var formData = $('form[name="mewesk_webredirectorbundle_redirect"]').serializeArray();
         for(var i = 0; i < formData.length; i++) {
             var object = formData[i];
@@ -62,17 +70,15 @@ $(function() {
         }
         delete formData[formData.length - 1];
 
-        console.log(formData);
-
-        // Call modal using the redirect form data
+        // Call modal using the test form data
         $.post(
             href,
             formData,
             function(modalData) {
                 // Append modal and add submit listener
                 $('body').append($(modalData).modal({ backdrop: 'static' }).on(
-                    'click',
-                    'button[type="submit"]',
+                    'submit',
+                    'form',
                     // On submit
                     function(e2) {
                         e2.preventDefault();
@@ -86,7 +92,13 @@ $(function() {
                             }
                         );
                     }
-                ));
+                ).on('shown.bs.modal', function(e2){
+                    // focus input field
+                    $(this).find('#mewesk_webredirectorbundle_test_url').focus();
+                }).on('hidden.bs.modal', function(e2){
+                    // remove modal
+                    $(this).remove();
+                }));
             }
         );
     });
