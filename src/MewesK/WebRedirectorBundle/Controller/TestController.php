@@ -48,12 +48,12 @@ class TestController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $result = 'FOOBAR';
+                $result = DefaultController::performRedirectTranslation(Request::create($test->getUrl()), $test);
             }
         }
 
         return array(
-            'entity' => $entity,
+            'entity' => $test,
             'form' => $form->createView(),
             'result' => $result
         );
@@ -67,18 +67,18 @@ class TestController extends Controller
      */
     public function testUnsavedAction(Request $request)
     {
-        $entity = new Test(null);
-        $form = $this->createForm('mewesk_webredirectorbundle_test', $entity, array('csrf_protection' => false));
+        $test = new Test(null);
+        $form = $this->createForm('mewesk_webredirectorbundle_test', $test, array('csrf_protection' => false));
         $result = null;
 
         $form->handleRequest($request);
 
-        if ($entity->getUrl() && $form->isValid()) {
-            $result = 'FOOBAR';
+        if ($test->getUrl() && $form->isValid()) {
+            $result = DefaultController::performRedirectTranslation(Request::create($test->getUrl()), $test);
         }
 
         return array(
-            'entity' => $entity,
+            'entity' => $test,
             'form' => $form->createView(),
             'result' => $result
         );
