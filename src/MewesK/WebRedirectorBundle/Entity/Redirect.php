@@ -139,6 +139,7 @@ class Redirect implements GroupSequenceProviderInterface
     private $createdAt;
 
     public function __construct() {
+        $this->enabled = false;
         $this->path = '';
         $this->useRegex = false;
         $this->usePlaceholders = false;
@@ -259,7 +260,7 @@ class Redirect implements GroupSequenceProviderInterface
      */
     public function setUseRegex($useRegex)
     {
-        $this->useRegex = $useRegex;
+        $this->useRegex = $useRegex ? true : false;
 
         return $this;
     }
@@ -283,7 +284,7 @@ class Redirect implements GroupSequenceProviderInterface
      */
     public function setUsePlaceholders($usePlaceholders)
     {
-        $this->usePlaceholders = $usePlaceholders;
+        $this->usePlaceholders = $usePlaceholders ? true : false;
 
         return $this;
     }
@@ -307,7 +308,7 @@ class Redirect implements GroupSequenceProviderInterface
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = $enabled;
+        $this->enabled = $enabled ? true : false;
 
         return $this;
     }

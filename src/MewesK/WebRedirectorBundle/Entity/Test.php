@@ -15,9 +15,7 @@ class Test extends Redirect
      * @var string
      *
      * @Assert\Length(
-     *      min = "0",
      *      max = "1023",
-     *      minMessage = "The destination must be at least {{ limit }} characters length",
      *      maxMessage = "The destination cannot be longer than {{ limit }} characters length"
      * )
      * @Assert\Url()
@@ -54,6 +52,7 @@ class Test extends Redirect
      * @param Redirect $redirect
      */
     public function __construct(Redirect $redirect = null) {
+        parent::__construct();
         if ($redirect) {
             $this->setCreatedAt($redirect->getCreatedAt());
             $this->setDestination($redirect->getDestination());

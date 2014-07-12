@@ -39,7 +39,9 @@ class TestType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'MewesK\WebRedirectorBundle\Entity\Test'));
+        $resolver->setDefaults(array(
+            'data_class' => 'MewesK\WebRedirectorBundle\Entity\Test'
+        ));
     }
 
     /**

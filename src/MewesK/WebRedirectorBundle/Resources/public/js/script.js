@@ -54,10 +54,20 @@ $(function() {
         // Get modal href
         var href = e1.currentTarget.href;
 
+        var formData = $('form[name="mewesk_webredirectorbundle_redirect"]').serializeArray();
+        for(var i = 0; i < formData.length; i++) {
+            var object = formData[i];
+            object.name = object.name.replace('mewesk_webredirectorbundle_redirect', 'mewesk_webredirectorbundle_test');
+            formData[i] = object;
+        }
+        delete formData[formData.length - 1];
+
+        console.log(formData);
+
         // Call modal using the redirect form data
         $.post(
             href,
-            $('form[name="mewesk_webredirectorbundle_redirect"]').serialize(),
+            formData,
             function(modalData) {
                 // Append modal and add submit listener
                 $('body').append($(modalData).modal({ backdrop: 'static' }).on(

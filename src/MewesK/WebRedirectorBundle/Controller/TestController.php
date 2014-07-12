@@ -48,8 +48,7 @@ class TestController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $result = null; // TODO: perform test
-                var_dump('TODO: perform test'); die();
+                $result = 'FOOBAR';
             }
         }
 
@@ -69,15 +68,13 @@ class TestController extends Controller
     public function testUnsavedAction(Request $request)
     {
         $entity = new Test(null);
-        $form = $this->createForm('mewesk_webredirectorbundle_test', $entity);
+        $form = $this->createForm('mewesk_webredirectorbundle_test', $entity, array('csrf_protection' => false));
         $result = null;
 
-        if ($request->request->get('url', '') !== '') {
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                $result = null; // TODO: perform test
-            }
+        if ($entity->getUrl() && $form->isValid()) {
+            $result = 'FOOBAR';
         }
 
         return array(
