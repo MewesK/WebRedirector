@@ -48,7 +48,7 @@ class TestController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $result = DefaultController::performRedirectTranslation(Request::create($test->getUrl()), $test);
+                $result = RedirectController::performRedirectTranslation(Request::create($test->getUrl()), $test);
             }
         }
 
@@ -74,7 +74,7 @@ class TestController extends Controller
         $form->handleRequest($request);
 
         if ($test->getUrl() && $form->isValid()) {
-            $result = DefaultController::performRedirectTranslation(Request::create($test->getUrl()), $test);
+            $result = RedirectController::performRedirectTranslation(Request::create($test->getUrl()), $test);
         }
 
         return array(

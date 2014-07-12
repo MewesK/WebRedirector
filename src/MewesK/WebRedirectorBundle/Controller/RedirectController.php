@@ -2,169 +2,70 @@
 
 namespace MewesK\WebRedirectorBundle\Controller;
 
-use MewesK\WebRedirectorBundle\Entity\RedirectRepository;
-use MewesK\WebRedirectorBundle\Entity\Test;
-use MewesK\WebRedirectorBundle\Form\TestType;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use MewesK\WebRedirectorBundle\Entity\Redirect;
-use MewesK\WebRedirectorBundle\Form\RedirectType;
+use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Redirect controller.
- *
- * @Route("/admin")
- */
 class RedirectController extends Controller
 {
-    /**
-     * Lists all Redirect entities.
-     *
-     * @Route("/", name="admin")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAllOrderedByPosition();
+        // get possible redirects
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->getPossibleRedirects($hostname, $path);
+        $destinations = array();
 
-        return array('entities' => $entities);
+        // magic
+        foreach($entities as $entityKey => $entity) {
+            /** @var $entity Redirect */
+            $destination = self::performRedirectTranslation($request, $entity);
+
+            // remove if not matching
+            if ($destination === false) {
+                unset($entities[$entityKey]);
+                continue;
+            }
+
+            $destinations[$entityKey] = $destination;
+        }
+
+        $finalRedirect = reset($destinations);
+
+        return $finalRedirect === false ? $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
+            'error_code' => 404,
+            'error_message' => 'Unable to find a matching redirect.'
+        )) : new RedirectResponse($finalRedirect->getDestination());
     }
 
-    /**
-     * Lists all Redirect entities.
-     *
-     * @Route("/redirects.{_format}", name="admin_export", requirements={"_format"="csv|xls|xlsx"})
-     * @Method("GET")
-     */
-    public function exportAction()
-    {
-        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->findAllOrderedByPosition();
+    public static function performRedirectTranslation(Request $request, Redirect $redirect) {
+        $entityDestination = $redirect->getDestination();
 
-        return $this->render('MewesKWebRedirectorBundle:Redirect:index.excel.twig', array('entities' => $entities));
-    }
+        // handle regex
+        if ($redirect->getUseRegex()) {
+            // remove if regex won't match
+            if (!(preg_match($redirect->getHostname(), $request->getHttpHost(), $matchesHostname) &
+                (!is_null($redirect->getPath()) & preg_match($redirect->getPath(), $request->getPathInfo(), $matchesPath)))) {
+                return false;
+            }
 
-    /**
-     * Displays a form to create a new Redirect entity.
-     *
-     * @Route("/new", name="admin_new")
-     * @Method({"GET", "POST"})
-     * @Template()
-     */
-    public function newAction(Request $request)
-    {
-        $entity = new Redirect();
-        $form = $this->createForm('mewesk_webredirectorbundle_redirect', $entity);
+            // perform regex replace if necessary
+            else {
+                 foreach($matchesHostname as $matchKey => $matchHostname) {
+                    $entityDestination = preg_replace('/(?<!\$)\$H'.$matchKey.'/i', $matchHostname, $entityDestination);
+                }
 
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $entity->setPosition($em->getRepository('MewesKWebRedirectorBundle:Redirect')->getNextAvailablePosition());
-
-                $em->persist($entity);
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('admin'));
+                foreach($matchesPath as $matchKey => $matchPath) {
+                    $entityDestination = preg_replace('/(?<!\$)\$P'.$matchKey.'/i', $matchPath, $entityDestination);
+                }
             }
         }
 
-        return array('entity' => $entity, 'form' => $form->createView(),);
-    }
-
-    /**
-     * Finds and displays a Redirect entity.
-     *
-     * @Route("/{id}", name="admin_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $entity = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-        if (!$entity) {
-            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
-                'error_code' => 404,
-                'error_message' => 'Unable to find Redirect entity.'
-            ));
+        // handle placeholders
+        if ($redirect->getUsePlaceholders()) {
+            $entityDestination = preg_replace('/(?<!\$)\$S/i', $request->getScheme(), $entityDestination);
+            $entityDestination = preg_replace('/(?<!\$)\$Q/i', $request->getQueryString(), $entityDestination);
         }
 
-        return array('entity' => $entity);
-    }
-
-    /**
-     * Displays a form to edit an existing Redirect entity.
-     *
-     * @Route("/{id}/edit", name="admin_edit")
-     * @Method({"GET", "POST"})
-     * @Template()
-     */
-    public function editAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-        if (!$entity) {
-            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
-                'error_code' => 404,
-                'error_message' => 'Unable to find Redirect entity.'
-            ));
-        }
-
-        $form = $this->createForm('mewesk_webredirectorbundle_redirect', $entity);
-
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('admin'));
-            }
-        }
-
-        return array('entity' => $entity, 'form' => $form->createView());
-    }
-
-    /**
-     * Deletes a Redirect entity.
-     *
-     * @Route("/{id}/delete", name="admin_delete")
-     * @Method({"GET","POST"})
-     * @Template()
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-        if (!$entity) {
-            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
-                'error_code' => 404,
-                'error_message' => 'Unable to find Redirect entity.'
-            ));
-        }
-
-        $form = $this->createFormBuilder($entity)->getForm();
-
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                $em->remove($entity);
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('admin'));
-            }
-        }
-
-        return array('entity' => $entity, 'form' => $form->createView());
+        return $entityDestination;
     }
 }

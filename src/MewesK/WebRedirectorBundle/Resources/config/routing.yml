@@ -6,6 +6,6 @@ logout:
 
 catch_all:
     path: /{url}
-    defaults: { _controller: MewesKWebRedirectorBundle:Default:index }
+    defaults: { _controller: MewesKWebRedirectorBundle:Redirect:index }
     requirements:
         url: ".*"
