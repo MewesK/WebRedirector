@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Redirect controller.
+ * Security controller.
  *
  * @Route("/")
  */

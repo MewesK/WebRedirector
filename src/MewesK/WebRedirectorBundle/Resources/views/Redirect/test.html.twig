@@ -10,6 +10,10 @@
             <div class="modal-body">
                 {{ form_errors(form) }}
                 {{ form_widget(form) }}
+                {% if result %}
+                    <h2>Result:</h2>
+                    <p>{{ result }}</p>
+                {% endif %}
             </div>
             <div class="modal-footer">
                 <div class="btn-group col-md-6 pull-right">

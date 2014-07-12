@@ -10,7 +10,7 @@ class DefaultController extends Controller
 {
     const DEBUG = false;
 
-    public function indexAction($url)
+    public function indexAction()
     {
         $request = $this->get('request');
 

@@ -58,9 +58,9 @@ class RedirectController extends Controller
     public function newAction(Request $request)
     {
         $entity = new Redirect();
-        $form = $this->createForm('redirect', $entity);
+        $form = $this->createForm('mewesk_webredirectorbundle_redirect', $entity);
 
-        if ($request->getMethod()) {
+        if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -118,9 +118,9 @@ class RedirectController extends Controller
             ));
         }
 
-        $form = $this->createForm('redirect', $entity);
+        $form = $this->createForm('mewesk_webredirectorbundle_redirect', $entity);
 
-        if ($request->getMethod()) {
+        if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -132,10 +132,6 @@ class RedirectController extends Controller
 
         return array('entity' => $entity, 'form' => $form->createView());
     }
-
-    //
-    // Modals
-    //
 
     /**
      * Deletes a Redirect entity.
@@ -158,7 +154,7 @@ class RedirectController extends Controller
 
         $form = $this->createFormBuilder($entity)->getForm();
 
-        if ($request->getMethod()) {
+        if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -170,96 +166,5 @@ class RedirectController extends Controller
         }
 
         return array('entity' => $entity, 'form' => $form->createView());
-    }
-
-    /**
-     * Finds and displays a Redirect entity.
-     *
-     * @Route("/{id}/test", name="admin_test")
-     * @Method({"GET","POST"})
-     * @Template()
-     */
-    public function testAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('MewesKWebRedirectorBundle:Redirect')->find($id);
-
-        if (!$entity) {
-            return $this->render('MewesKWebRedirectorBundle::error.html.twig', array(
-                'error_code' => 404,
-                'error_message' => 'Unable to find Redirect entity.'
-            ));
-        }
-
-        $test = new Test();
-        $test->setRedirect($entity);
-        $form = $this->createForm('test', $test);
-        $result = null;
-
-        if ($request->getMethod()) {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                $result = null; // TODO: perform test
-            }
-        }
-
-        return array('entity' => $entity, 'form' => $form->createView(), 'testResult' => $result);
-    }
-
-    //
-    // REST
-    //
-
-    /**
-     * Displays a form to edit an existing Redirect entity.
-     *
-     * @Route("/{id}/position", name="admin_position")
-     * @Method("POST")
-     */
-    public function positionAction(Request $request, $id)
-    {
-        if (!$request->request->has('position')) {
-            return new JsonResponse(array(
-                'error_code' => 400,
-                'error_message' => '"position" parameter is not defined.'
-            ));
-        }
-
-        $position = intval($request->request->get('position'));
-
-        if ($position < 0) {
-            return new JsonResponse(array(
-                'error_code' => 400,
-                'error_message' => '"position" parameter must be >= 0.'
-            ));
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var $repository RedirectRepository */
-        $repository = $em->getRepository('MewesKWebRedirectorBundle:Redirect');
-        $nextPosition = $repository->getNextAvailablePosition();
-
-        if ($position >= $nextPosition) {
-            return new JsonResponse(array(
-                'error_code' => 400,
-                'error_message' => '"position" parameter must be <= '.($nextPosition - 1).'.'
-            ));
-        }
-
-        /** @var $entity Redirect */
-        $entity = $repository->find($id);
-
-        if (!$entity) {
-            return new JsonResponse(array(
-                'error_code' => 404,
-                'error_message' => 'Unable to find Redirect entity.'
-            ));
-        }
-
-        $repository->setNewPosition($entity, $position);
-
-        return new JsonResponse(true);
     }
 }

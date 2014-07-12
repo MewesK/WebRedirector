@@ -15,11 +15,21 @@ class TestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', 'text', array(
-                'required' => true
+            ->add('hostname', 'hidden')
+            ->add('path', 'hidden', array(
+                'required' => false
             ))
-            ->add('redirect',  'mewesk_webredirectorbundle_entity_hidden', array(
-                'class' => 'MewesKWebRedirectorBundle:Redirect',
+            ->add('destination', 'hidden')
+            ->add('useRegex', 'hidden', array(
+                'required' => false
+            ))
+            ->add('usePlaceholders', 'hidden', array(
+                'required' => false
+            ))
+            ->add('enabled', 'hidden', array(
+                'required' => false
+            ))
+            ->add('url', 'text', array(
                 'required' => true
             ));
     }

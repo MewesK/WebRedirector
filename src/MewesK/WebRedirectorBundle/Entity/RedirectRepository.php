@@ -47,8 +47,8 @@ class RedirectRepository extends EntityRepository
         $firstPosition = $position <= $redirect->getPosition() ? $position : $redirect->getPosition();
         $lastPosition = $position >= $redirect->getPosition() ? $position : $redirect->getPosition();
 
-        /** @var $entries Redirect[] */
-        $entries = $this->createQueryBuilder('r')
+        /** @var $entities Redirect[] */
+        $entities = $this->createQueryBuilder('r')
             ->where('r.position >= :firstPosition')
             ->andWhere('r.position <= :lastPosition')
             ->andWhere('r.position != :currentPosition')
@@ -59,18 +59,18 @@ class RedirectRepository extends EntityRepository
             ->getQuery()
             ->getResult();
 
-        if (count($entries) == 0) {
+        if (count($entities) == 0) {
             return;
         }
 
-        array_splice($entries, $position - $entries[0]->getPosition(), 0, array($redirect));
+        array_splice($entities, $position - $entities[0]->getPosition(), 0, array($redirect));
 
         $em = $this->getEntityManager();
 
-        for ($i = 0; $i < count($entries); $i++) {
-            $entry = $entries[$i];
-            $entry->setPosition($firstPosition + $i);
-            $em->persist($entry);
+        for ($i = 0; $i < count($entities); $i++) {
+            $entity = $entities[$i];
+            $entity->setPosition($firstPosition + $i);
+            $em->persist($entity);
         }
 
         $em->flush();

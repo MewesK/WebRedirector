@@ -4,18 +4,12 @@ services:
         tags:
             - { name: twig.extension }
 
-    mewesk.type.mewesk_webredirectorbundle_entity_hidden:
-         class: MewesK\WebRedirectorBundle\Form\EntityHiddenType
-         arguments: ["@doctrine.orm.entity_manager"]
-         tags:
-         - { name: form.type, alias: entity_hidden }
-
     mewesk.type.mewesk_webredirectorbundle_redirect:
          class: MewesK\WebRedirectorBundle\Form\RedirectType
          tags:
-         - { name: form.type, alias: redirect }
+         - { name: form.type, alias: mewesk_webredirectorbundle_redirect }
 
     mewesk.type.mewesk_webredirectorbundle_test:
          class: MewesK\WebRedirectorBundle\Form\TestType
          tags:
-         - { name: form.type, alias: test }
+         - { name: form.type, alias: mewesk_webredirectorbundle_test }

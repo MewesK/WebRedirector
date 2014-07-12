@@ -15,6 +15,9 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-floppy-disk pull-left"></span> Save
             </button>
+            <a href="{{ path('admin_test_unsaved') }}" class="btn btn-default test-unsaved">
+                <span class="glyphicon glyphicon-signal pull-left"></span> Test
+            </a>
             <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">
                 <span class="glyphicon glyphicon-arrow-left pull-left"></span> Back
             </a>
