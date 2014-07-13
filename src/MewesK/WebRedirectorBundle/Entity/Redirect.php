@@ -41,7 +41,6 @@ class Redirect implements GroupSequenceProviderInterface
      * @ORM\Column(name="hostname", type="string", length=1023)
      *
      * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @Assert\Length(
      *      min = "1",
      *      max = "1023",
@@ -81,7 +80,6 @@ class Redirect implements GroupSequenceProviderInterface
      * @ORM\Column(name="destination", type="string", length=1023)
      *
      * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @Assert\Length(
      *      min = "1",
      *      max = "1023",

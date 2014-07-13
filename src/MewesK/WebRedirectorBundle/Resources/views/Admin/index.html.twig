@@ -8,6 +8,7 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Hostname</th>
                     <th>Path</th>
                     <th>Destination</th>
@@ -19,6 +20,7 @@
                 <tbody class="sortable">
                 {% for entity in entities %}
                     <tr data-id="{{ entity.id }}">
+                        <td><span class="glyphicon glyphicon-{{ entity.enabled ? 'ok' : 'none' }}"></span></td>
                         <td>{{ entity.hostname|format_regex }}</td>
                         <td>{{ entity.path|format_regex }}</td>
                         <td>{{ entity.destination|format_destination }}</td>

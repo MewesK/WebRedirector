@@ -6,8 +6,9 @@
             {% xlscell %}Hostname{% endxlscell %}
             {% xlscell %}Path{% endxlscell %}
             {% xlscell %}Destination{% endxlscell %}
-            {% xlscell %}Use Regex{% endxlscell %}
-            {% xlscell %}Use Placeholders{% endxlscell %}
+            {% xlscell %}Enabled{% endxlscell %}
+            {% xlscell %}Uses Regex{% endxlscell %}
+            {% xlscell %}Uses Placeholders{% endxlscell %}
         {% endxlsrow %}
         {% for entity in entities %}
             {% xlsrow %}
@@ -16,6 +17,7 @@
                 {% xlscell %}{{ entity.hostname }}{% endxlscell %}
                 {% xlscell %}{{ entity.path }}{% endxlscell %}
                 {% xlscell %}{{ entity.destination }}{% endxlscell %}
+                {% xlscell %}{{ entity.enabled }}{% endxlscell %}
                 {% xlscell %}{{ entity.useRegex }}{% endxlscell %}
                 {% xlscell %}{{ entity.usePlaceholders }}{% endxlscell %}
             {% endxlsrow %}

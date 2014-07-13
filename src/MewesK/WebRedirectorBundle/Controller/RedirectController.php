@@ -12,7 +12,8 @@ class RedirectController extends Controller
     public function indexAction(Request $request)
     {
         // get possible redirects
-        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')->getPossibleRedirects($hostname, $path);
+        $entities = $this->getDoctrine()->getManager()->getRepository('MewesKWebRedirectorBundle:Redirect')
+            ->getPossibleRedirects($request->getHttpHost(), $request->getPathInfo());
         $destinations = array();
 
         // magic
@@ -38,23 +39,27 @@ class RedirectController extends Controller
     }
 
     public static function performRedirectTranslation(Request $request, Redirect $redirect, $explain = false) {
-        $entityDestination = $redirect->getDestination();
+        $destination = $redirect->getDestination();
+
         $hostnameGroups = array();
         $pathGroups = array();
         $placeholders = array();
+
+        $matchesHostname = array();
+        $matchesPath = array();
 
         // handle regex
         if ($redirect->getUseRegex()) {
             // remove if regex won't match
             if (!(preg_match($redirect->getHostname(), $request->getHttpHost(), $matchesHostname) &
-                (!is_null($redirect->getPath()) & preg_match($redirect->getPath(), $request->getPathInfo(), $matchesPath)))) {
+                ($redirect->getPath() && $redirect->getPath() != '' && preg_match($redirect->getPath(), $request->getPathInfo(), $matchesPath)))) {
                 return false;
             }
 
             // perform regex replace if necessary
             else {
                  foreach($matchesHostname as $matchKey => $matchHostname) {
-                    $entityDestination = preg_replace('/(?<!\$)\$H'.$matchKey.'/i', $matchHostname, $entityDestination);
+                     $destination = preg_replace('/(?<!\$)\$H'.$matchKey.'/i', $matchHostname, $destination);
 
                      if ($explain) {
                          $hostnameGroups['$H'.$matchKey] = $matchHostname;
@@ -62,7 +67,7 @@ class RedirectController extends Controller
                 }
 
                 foreach($matchesPath as $matchKey => $matchPath) {
-                    $entityDestination = preg_replace('/(?<!\$)\$P'.$matchKey.'/i', $matchPath, $entityDestination);
+                    $destination = preg_replace('/(?<!\$)\$P'.$matchKey.'/i', $matchPath, $destination);
 
                     if ($explain) {
                         $pathGroups['$P'.$matchKey] = $matchPath;
@@ -73,8 +78,8 @@ class RedirectController extends Controller
 
         // handle placeholders
         if ($redirect->getUsePlaceholders()) {
-            $entityDestination = preg_replace('/(?<!\$)\$S/i', $request->getScheme(), $entityDestination);
-            $entityDestination = preg_replace('/(?<!\$)\$Q/i', $request->getQueryString(), $entityDestination);
+            $destination = preg_replace('/(?<!\$)\$S/i', $request->getScheme(), $destination);
+            $destination = preg_replace('/(?<!\$)\$Q/i', $request->getQueryString(), $destination);
 
             if ($explain) {
                 $placeholders['$Q'] = $request->getScheme();
@@ -82,8 +87,8 @@ class RedirectController extends Controller
             }
         }
 
-        return !$explain ? $entityDestination : array(
-            'destination' => $entityDestination,
+        return !$explain ? $destination : array(
+            'destination' => $destination,
             'hostnameGroups' => $hostnameGroups,
             'pathGroups' => $pathGroups,
             'placeholders' => $placeholders

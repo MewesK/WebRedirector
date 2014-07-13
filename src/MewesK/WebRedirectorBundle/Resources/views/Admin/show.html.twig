@@ -5,38 +5,24 @@
 {% block content_row %}
     <div class="row">
         <div class="col-md-10">
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ entity.id }}</td>
-                </tr>
-                <tr>
-                    <th>Position</th>
-                    <td>{{ entity.position }}</td>
-                </tr>
-                <tr>
-                    <th>Hostname</th>
-                    <td>{{ entity.hostname|format_regex }}</td>
-                </tr>
-                <tr>
-                    <th>Path</th>
-                    <td>{{ entity.path|format_regex }}</td>
-                </tr>
-                <tr>
-                    <th>Destination</th>
-                    <td>{{ entity.destination|format_destination }}</td>
-                </tr>
-                <tr>
-                    <th>Uses Regex</th>
-                    <td><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></td>
-                </tr>
-                <tr>
-                    <th>Uses Placeholders</th>
-                    <td><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></td>
-                </tr>
-                </tbody>
-            </table>
+            <dl class="dl-horizontal">
+                <dt>Id</dt>
+                <dd>{{ entity.id }}</dd>
+                <dt>Position</dt>
+                <dd>{{ entity.position }}</dd>
+                <dt>Hostname</dt>
+                <dd>{{ entity.hostname|format_regex }}</dd>
+                <dt>Path</dt>
+                <dd>{{ entity.path|format_regex }}</dd>
+                <dt>Destination</dt>
+                <dd>{{ entity.destination|format_destination }}</dd>
+                <dt>Enabled</dt>
+                <dd><span class="glyphicon glyphicon-{{ entity.enabled ? 'ok' : 'none' }}"></span></dd>
+                <dt>Uses Regex</dt>
+                <dd><span class="glyphicon glyphicon-{{ entity.useRegex ? 'ok' : 'none' }}"></span></dd>
+                <dt>Uses Placeholders</dt>
+                <dd><span class="glyphicon glyphicon-{{ entity.usePlaceholders ? 'ok' : 'none' }}"></span></dd>
+            </dl>
         </div>
 
         <div class="col-md-2 btn-group-vertical">

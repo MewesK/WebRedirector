@@ -9,6 +9,14 @@
             </div>
 
             <div class="modal-body">
+                <dl class="dl-horizontal">
+                    <dt>Hostname</dt>
+                    <dd>{{ entity.hostname|format_regex }}</dd>
+                    <dt>Path</dt>
+                    <dd>{{ entity.path|format_regex }}</dd>
+                    <dt>Destination</dt>
+                    <dd>{{ entity.destination|format_destination }}</dd>
+                </dl>
                 {{ form_errors(form) }}
                 {{ form_widget(form) }}
                 {% if result %}
@@ -17,55 +25,69 @@
                         <strong>{{ result.destination }}</strong>
                     </div>
                     <br />
+                    <div class="panel-group">
                     {% if entity.useRegex %}
                         <div class="panel panel-default panel-sm">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Hostname groups</h3>
+                                <a data-toggle="collapse" href="#details-hostname-groups">
+                                    <h3 class="panel-title">Hostname groups</h3>
+                                </a>
                             </div>
-                            <table class="table">
-                                <tbody>
-                                {% for key, value in result.hostnameGroups %}
-                                    <tr>
-                                        <td class="col-md-2">{{ key }}</td>
-                                        <td>{{ value }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                            <div id="details-hostname-groups" class="panel-collapse collapse">
+                                <table class="table">
+                                    <tbody>
+                                    {% for key, value in result.hostnameGroups %}
+                                        <tr>
+                                            <td class="col-md-2">{{ key }}</td>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="panel panel-default panel-sm">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Path groups</h3>
+                                <a data-toggle="collapse" href="#details-path-groups">
+                                    <h3 class="panel-title">Path groups</h3>
+                                </a>
                             </div>
-                            <table class="table">
-                                <tbody>
-                                {% for key, value in result.pathGroups %}
-                                    <tr>
-                                        <td class="col-md-2">{{ key }}</td>
-                                        <td>{{ value }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                            <div id="details-path-groups" class="panel-collapse collapse">
+                                <table class="table">
+                                    <tbody>
+                                    {% for key, value in result.pathGroups %}
+                                        <tr>
+                                            <td class="col-md-2">{{ key }}</td>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     {% endif %}
                     {% if entity.usePlaceholders %}
                         <div class="panel panel-default panel-sm">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Placeholders</h3>
+                                <a data-toggle="collapse" href="#details-placeholders">
+                                    <h3 class="panel-title">Placeholders</h3>
+                                </a>
                             </div>
-                            <table class="table">
-                                <tbody>
-                                {% for key, value in result.placeholders %}
-                                    <tr>
-                                        <td class="col-md-2">{{ key }}</td>
-                                        <td>{{ value }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                            <div id="details-placeholders" class="panel-collapse collapse">
+                                <table class="table">
+                                    <tbody>
+                                    {% for key, value in result.placeholders %}
+                                        <tr>
+                                            <td class="col-md-2">{{ key }}</td>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     {% endif %}
+                    </div>
                 {% endif %}
             </div>
 

@@ -14,8 +14,11 @@ class Test extends Redirect
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @Assert\Length(
+     *      min = "1",
      *      max = "1023",
+     *      minMessage = "The destination must be at least {{ limit }} characters length",
      *      maxMessage = "The destination cannot be longer than {{ limit }} characters length"
      * )
      * @Assert\Url()
